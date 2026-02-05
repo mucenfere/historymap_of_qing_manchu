@@ -41,27 +41,32 @@
 
   async function loadGeoJSON(url, options = {}) {
     const res = await fetch(url);
-    const gj = await res.json();
-    return L.geoJSON(gj, {
-      style: options.style,
-      pointToLayer: options.pointToLayer,
-      onEachFeature: (feature, layer) => {
-        const p = feature.properties || {};
+  if (!res.ok) throw new Error(`Failed to fetch ${url} (HTTP ${res.status})`);
+  const gj = await res.json();
+
+  return L.geoJSON(gj, {
+    style: options.style,
+    pointToLayer: options.pointToLayer,
+    onEachFeature: (feature, layer) => {
+      const p = feature.properties || {};
+
+      const labelText =
         p.NAME_FT || p.NAME_CH || p.NAME_PY || p.name || p.name_ko || p.name_zh || '정보';
-        layer.bindPopup(`<b>${title}</b>`);
-        if (options.label === true && layer instanceof L.CircleMarker) {
-    layer.bindTooltip(labelText, {
-      permanent: true,
-      direction: 'top',
-      offset: [0, -6],
-      opacity: 1,
-      className: 'plain-label'
-      });
+
+      layer.bindPopup(`<b>${labelText}</b>`);
+      
+      if (options.label === true && layer instanceof L.CircleMarker) {
+        layer.bindTooltip(labelText, {
+          permanent: true,
+          direction: 'top',
+          offset: [0, -6],
+          opacity: 1,
+          className: 'plain-label'
+        });
       }
     }
   });
 }
-
   (async () => {
     const admin = await loadGeoJSON('./data/admin.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
     const chgisprov_pgn = await loadGeoJSON('./data/v6_1820_prov_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});

@@ -97,7 +97,7 @@
   })
 });
     const roads = await loadGeoJSON('./data/roads.geojson', { style: { weight: 3 }});
-    const wpkangxi = await loadGeoJSON('./data/wpkangxi.geojson', { style: { weight: 3 }});
+    const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: { weight: 3 }});
     const cities = await loadGeoJSON('./data/cities.geojson', {
       pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
     });
@@ -107,7 +107,7 @@
     roads.addTo(map);
 
     const baseLayers = { "위성": satellite, "OSM": osm };
-    const overlays = { "省 경계선(1820_CHGIS)": chgisprov_pgn, "府 경계선(1820_CHGIS)": chgispref_pgn, "府 치소(1820_CHGIS)": chgispref_pts, "지명(1820_CHGIS)": chgistwn_pts, "행정/경계": admin, "교통로": roads, "도시": cities };
+    const overlays = { "유조변(강희-옹정)": wpkangxi, "省 경계선(1820_CHGIS)": chgisprov_pgn, "府 경계선(1820_CHGIS)": chgispref_pgn, "府 치소(1820_CHGIS)": chgispref_pts, "지명(1820_CHGIS)": chgistwn_pts, "행정/경계": admin, "교통로": roads, "도시": cities };
 
     L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
   })();

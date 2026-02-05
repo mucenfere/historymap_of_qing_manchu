@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Historic Map of Qing Manchu (Satellite Base)</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <title>Historic Map (Satellite Base)</title>
+
   <!-- Leaflet -->
   <link
     rel="stylesheet"
@@ -138,6 +137,16 @@
       const b = group.getBounds();
       if (b.isValid()) leafletMap.fitBounds(b.pad(0.08));
 
+    })().catch((err) => {
+      console.error(err);
+      // show error on screen too
+      document.body.innerHTML =
+        `<pre style="white-space:pre-wrap; padding:12px; font:14px/1.4 system-ui;">` +
+        `오류가 발생했습니다:\n\n${err.stack || err.message}\n\n` +
+        `- data/admin.geojson, data/roads.geojson, data/cities.geojson 경로가 맞는지\n` +
+        `- GeoJSON이 FeatureCollection인지\n` +
+        `- 좌표가 [경도, 위도]인지 확인하세요.\n` +
+        `</pre>`;
     });
   </script>
 </body>

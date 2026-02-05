@@ -37,6 +37,7 @@
 );
 
   satellite.addTo(map);
+  labels.addTo(map); 
 
   async function loadGeoJSON(url, options = {}) {
     const res = await fetch(url);

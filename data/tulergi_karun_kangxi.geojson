@@ -1,0 +1,32 @@
+{
+"type": "FeatureCollection",
+"name": "karun_kangxi",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Id": 0, "name": "费德里" }, "geometry": { "type": "Point", "coordinates": [ 125.685917889000052, 42.129111050000056 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "三桐河口" }, "geometry": { "type": "Point", "coordinates": [ 126.243531406000102, 42.749088702000059 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "永甸" }, "geometry": { "type": "Point", "coordinates": [ 124.838454839000065, 40.558077406000045 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "伊米孙" }, "geometry": { "type": "Point", "coordinates": [ 125.429166667000118, 41.770833333000049 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "福尔兼哈达" }, "geometry": { "type": "Point", "coordinates": [ 126.51901620000001, 41.938054020000038 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "嘉勒图库" }, "geometry": { "type": "Point", "coordinates": [ 125.5875, 41.720833333000037 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "古河" }, "geometry": { "type": "Point", "coordinates": [ 125.258171509000036, 40.932295647000039 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "东阿" }, "geometry": { "type": "Point", "coordinates": [ 124.8625, 41.229166667000051 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "三叉子" }, "geometry": { "type": "Point", "coordinates": [ 124.939929110000108, 40.585072463000074 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "汤宝城" }, "geometry": { "type": "Point", "coordinates": [ 124.333049381, 40.457548086000024 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "石头城" }, "geometry": { "type": "Point", "coordinates": [ 124.312034571000027, 40.639239454000062 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "宽甸" }, "geometry": { "type": "Point", "coordinates": [ 124.782243723000093, 40.731081648000043 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "鸭尔河" }, "geometry": { "type": "Point", "coordinates": [ 125.322405689000107, 41.207216877000064 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "朱尔和阿師哈" }, "geometry": { "type": "Point", "coordinates": [ 125.361324204000098, 41.363676511000058 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "古山子楼房(1)" }, "geometry": { "type": "Point", "coordinates": [ 124.779955032000089, 40.684438998000076 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "噶三和罗佛钮" }, "geometry": { "type": "Point", "coordinates": [ 125.062500000000114, 42.1625 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "土门(1)" }, "geometry": { "type": "Point", "coordinates": [ 124.4625, 40.5125 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "费德里萨哈连浪土之间" }, "geometry": { "type": "Point", "coordinates": [ 125.526040811000044, 42.006082848000069 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "辉发" }, "geometry": { "type": "Point", "coordinates": [ 126.18758442900004, 42.733422217000069 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "萨哈连浪土" }, "geometry": { "type": "Point", "coordinates": [ 125.440637750000064, 41.952132940000055 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "坦品河" }, "geometry": { "type": "Point", "coordinates": [ 126.354224880000046, 42.420787521000079 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "长岭子" }, "geometry": { "type": "Point", "coordinates": [ 124.688236122000049, 40.804633585000026 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "三桐渡口" }, "geometry": { "type": "Point", "coordinates": [ 126.104166667000072, 42.304166667000061 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "土门(2)" }, "geometry": { "type": "Point", "coordinates": [ 125.036137468000092, 40.998628850000046 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "name": "古山子楼房(2)" }, "geometry": { "type": "Point", "coordinates": [ 124.40423806900003, 40.234998756000039 ] } }
+]
+}

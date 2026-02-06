@@ -123,13 +123,6 @@
         opacity: 1
       }
     });
-    const greatwall = await loadGeoJSON('./data/greatwall.geojson', {
-      style: {
-        color: '#000000',
-        weight: 2,
-        opacity: 1
-      }
-    });
     const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
     const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
     const cities = await loadGeoJSON('./data/cities.geojson', {
@@ -137,13 +130,27 @@
     });
 
     const groupedOverlays = {
-      "유조변": {
+      "강희기 카룬": {
         "유조변(강희-옹정)": wpkangxi,
-        "유조변(건륭)": wpqianlong
+        "카룬(강희기)": karun_kangxi
+      },
+      "옹정기 카룬": {
+        "유조변(강희-옹정)": wpkangxi,
+        "변내카룬(옹정기)": dorgi_karun_yongzheng,
+        "변외카룬(옹정기)": tulergi_karun_yongzheng
+      },
+      "건륭기 카룬": {
+        "유조변(건륭이후)": wpqianlong,
+        "변내카룬(건륭기)": dorgi_karun_qianlong,
+        "변외카룬(건륭기)": tulergi_karun_qianlong
+      },
+      "가경기 카룬": {
+        "유조변(건륭이후)": wpqianlong,
+        "변내카룬(가경기)": dorgi_karun_jiaqing,
+        "변외카룬(가경기)": tulergi_karun_jiaqing
       },
       "기타": {
         "성경장군 관할 경계선": admin_v1,
-        "장성": greatwall
       },
       "참고자료_CHGIS (1820)": {
         "省 경계선(1820_CHGIS)": chgisprov_pgn,

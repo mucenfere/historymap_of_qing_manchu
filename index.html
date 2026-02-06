@@ -123,6 +123,13 @@
         opacity: 1
       }
     });
+    const greatwall = await loadGeoJSON('./data/greatwall.geojson', {
+      style: {
+        color: '#000000',
+        weight: 2,
+        opacity: 1
+      }
+    });
     const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
     const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
     const cities = await loadGeoJSON('./data/cities.geojson', {
@@ -135,7 +142,8 @@
         "유조변(건륭)": wpqianlong
       },
       "기타": {
-        "성경장군 관할 경계선": admin_v1
+        "성경장군 관할 경계선": admin_v1,
+        "장성": greatwall
       },
       "참고자료_CHGIS (1820)": {
         "省 경계선(1820_CHGIS)": chgisprov_pgn,

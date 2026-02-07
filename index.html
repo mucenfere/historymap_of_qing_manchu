@@ -102,6 +102,7 @@
 }
   (async () => {
     const admin = await loadGeoJSON('./data/admin.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
+    admin_v1.addTo(map);
     const chgisprov_pgn = await loadGeoJSON('./data/v6_1820_prov_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
     const chgispref_pgn = await loadGeoJSON('./data/v6_1820_pref_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
     const chgispref_pts = await loadGeoJSON('./data/v6_1820_pref_pts.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
@@ -161,6 +162,9 @@
     });
 
     const groupedOverlays = {
+      "기타": {
+        "성경장군 관할 경계선": admin_v1,
+      },
       "유조변": {
         "유조변(강희-옹정)": wpkangxi,
         "유조변(건륭이후)": wpqianlong
@@ -180,9 +184,6 @@
       "가경기 카룬": {
         "변내카룬(가경기)": dk_jq,
         "변외카룬(가경기)": tl_jq
-      },
-      "기타": {
-        "성경장군 관할 경계선": admin_v1,
       },
       "참고자료_CHGIS (1820)": {
         "省 경계선(1820_CHGIS)": chgisprov_pgn,

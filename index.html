@@ -15,6 +15,8 @@
 
   <style>
     html, body { height: 100%; margin: 0; overflow: hidden; }
+
+    /* Top nav */
     .topnav{
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -60,45 +62,6 @@
       overflow-x: hidden;
       padding-right: 6px;
     }
-
-    /* Group header: flex so button can sit on the right */
-    .leaflet-control-layers-group-name{
-      cursor: default;
-      font-weight: 800;
-      margin-top: 6px;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Hide any built-in arrow marker from plugin (if present) */
-    .leaflet-control-layers-group-name::before{
-      content: "" !important;
-      display: none !important;
-    }
-
-    /* Fold button (right) */
-    .group-fold-btn{
-      margin-left: auto;
-      appearance: none;
-      border: 1px solid #ccc;
-      background: rgba(255,255,255,0.9);
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-      line-height: 1;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .group-fold-btn:hover{ background: #f0f0f0; }
-    .leaflet-control-layers-group.is-collapsed .group-items-wrap{
-      display: none !important;
-    }
   </style>
 </head>
 
@@ -139,6 +102,7 @@
       "OSM": osm
     };
 
+    // Styles
     const willowpalisade = { color: '#d60000', weight: 2, opacity: 1 };
 
     async function loadGeoJSON(url, options = {}) {
@@ -166,70 +130,6 @@
             });
           }
         }
-      });
-    }
-
-    function attachGroupFoldButtons(layerCtl) {
-      const container = layerCtl.getContainer();
-      if (!container) return;
-
-      const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
-
-      groupEls.forEach(groupEl => {
-        const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
-        if (!nameEl) return;
-        if (nameEl.querySelector('.group-fold-btn')) return;
-
-        let wrap = groupEl.querySelector('.group-items-wrap');
-        if (!wrap) {
-          wrap = document.createElement('div');
-          wrap.className = 'group-items-wrap';
-
-          while (nameEl.nextSibling) {
-            wrap.appendChild(nameEl.nextSibling);
-          }
-          groupEl.appendChild(wrap);
-        }
-
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'group-fold-btn';
-        btn.textContent = groupEl.classList.contains('is-collapsed') ? '▸' : '▾';
-
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const collapsed = groupEl.classList.toggle('is-collapsed');
-          btn.textContent = collapsed ? '▸' : '▾';
-          wrap.style.display = collapsed ? 'none' : '';
-        });
-
-        nameEl.appendChild(btn);
-      });
-    }
-
-
-    function collapseGroupsOnStart(layerCtl, groupNames) {
-      const container = layerCtl.getContainer();
-      if (!container) return;
-
-      const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
-
-      groupEls.forEach(groupEl => {
-        const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
-        if (!nameEl) return;
-
-        const label = (nameEl.textContent || '').replace(/[▾▸]/g, '').trim();
-        if (!groupNames.includes(label)) return;
-
-        groupEl.classList.add('is-collapsed');
-
-        const btn = nameEl.querySelector('.group-fold-btn');
-        if (btn) btn.textContent = '▸';
-
-        const wrap = groupEl.querySelector('.group-items-wrap');
-        if (wrap) wrap.style.display = 'none';
       });
     }
 
@@ -265,36 +165,21 @@
       const admin_v1 = await loadGeoJSON('./data/admin_lv1.geojson', {
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
-
       admin_v1.addTo(map);
 
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
 
       const groupedOverlays = {
-        "기타": {
-          "성경장군 관할 경계선": admin_v1
-        },
+        "기타": { "성경장군 관할 경계선": admin_v1 },
         "유조변": {
           "유조변(강희-옹정)": wpkangxi,
           "유조변(건륭이후)": wpqianlong
         },
-        "강희기 카룬": {
-          "邊臺(강희기)": dk_kx,
-          "카룬(강희기)": tl_kx
-        },
-        "옹정기 카룬": {
-          "변내카룬(옹정기)": dk_yz,
-          "변외카룬(옹정기)": tl_yz
-        },
-        "건륭기 카룬": {
-          "변내카룬(건륭기)": dk_ql,
-          "변외카룬(건륭기)": tl_ql
-        },
-        "가경기 카룬": {
-          "변내카룬(가경기)": dk_jq,
-          "변외카룬(가경기)": tl_jq
-        },
+        "강희기 카룬": { "邊臺(강희기)": dk_kx, "카룬(강희기)": tl_kx },
+        "옹정기 카룬": { "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tl_yz },
+        "건륭기 카룬": { "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tl_ql },
+        "가경기 카룬": { "변내카룬(가경기)": dk_jq, "변외카룬(가경기)": tl_jq },
         "참고자료_CHGIS (1820)": {
           "省 경계선(1820_CHGIS)": chgisprov_pgn,
           "府 경계선(1820_CHGIS)": chgispref_pgn,
@@ -303,16 +188,11 @@
         }
       };
 
-      const layerCtl = L.control.groupedLayers(baseLayers, groupedOverlays, {
+      L.control.groupedLayers(baseLayers, groupedOverlays, {
         collapsed: false,
-        groupsCollapsible: false,
-        groupCheckboxes: false
+        groupsCollapsible: true,
+        groupCheckboxes: true
       }).addTo(map);
-      
-      setTimeout(() => {
-        attachGroupFoldButtons(layerCtl);
-        collapseGroupsOnStart(layerCtl, ["참고자료_CHGIS (1820)"]);
-      }, 0);
 
     })().catch(err => {
       console.error(err);

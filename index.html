@@ -62,6 +62,20 @@
   overflow-x: hidden;
   padding-right: 6px;
 }
+.leaflet-control-layers-group-name{
+  cursor: pointer;
+  font-weight: 800;
+  margin-top: 6px;
+  user-select: none;
+}
+.leaflet-control-layers-group-name::before{
+  content: "▾ ";
+  display: inline-block;
+  width: 1em;
+}
+.leaflet-control-layers-group.collapsed .leaflet-control-layers-group-name::before{
+  content: "▸ ";
+}
   </style>
 </head>
 <body>
@@ -226,7 +240,11 @@
       },
     };
 console.log("groupedLayers exists?", typeof L.control.groupedLayers);
-L.control.groupedLayers(baseLayers, groupedOverlays, { collapsed: false }).addTo(map);
+L.control.groupedLayers(baseLayers, groupedOverlays, {
+  collapsed: false,
+  groupsCollapsible: true,
+  groupCheckboxes: true
+}).addTo(map);
   })().catch(err => { console.error(err); alert(err.message || err); });
 </script>
 </body>

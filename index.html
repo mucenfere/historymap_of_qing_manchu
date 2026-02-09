@@ -76,6 +76,36 @@
 .leaflet-control-layers-group.collapsed .leaflet-control-layers-group-name::before{
   content: "▸ ";
 }
+.leaflet-control-layers-group-name{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+    
+.group-fold-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.group-fold-btn:hover{
+  background: #f0f0f0;
+}
+
+.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-list,
+.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-items,
+.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-layers{
+  display: none !important;
+}
   </style>
 </head>
 <body>
@@ -243,8 +273,46 @@ console.log("groupedLayers exists?", typeof L.control.groupedLayers);
 L.control.groupedLayers(baseLayers, groupedOverlays, {
   collapsed: false,
   groupsCollapsible: true,
-  groupCheckboxes: true
+  groupCheckboxes: false
 }).addTo(map);
+function attachGroupFoldButtons() {
+  const groupEls = document.querySelectorAll('.leaflet-control-layers-group');
+
+  groupEls.forEach(groupEl => {
+    const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
+    if (!nameEl) return;
+    if (nameEl.querySelector('.group-fold-btn')) return;
+    
+    let listEl =
+      groupEl.querySelector('.leaflet-control-layers-group-list') ||
+      groupEl.querySelector('.leaflet-control-layers-group-items') ||
+      groupEl.querySelector('.leaflet-control-layers-group-layers');
+
+    if (!listEl && nameEl.nextElementSibling) listEl = nameEl.nextElementSibling;
+
+    const btn = document.createElement('span');
+    btn.className = 'group-fold-btn';
+    btn.textContent = '▾';
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const collapsed = groupEl.classList.toggle('is-collapsed');
+      btn.textContent = collapsed ? '▸' : '▾';
+
+      if (listEl) {
+        listEl.style.display = collapsed ? 'none' : '';
+      }
+    });
+
+    // 그룹명 맨 앞에 버튼 삽입
+    nameEl.append(btn);
+  });
+}
+.group-fold-btn{ margin-left: auto; }
+setTimeout(attachGroupFoldButtons, 0);
+    
 const collapseGroupsOnStart = [
   "참고자료_CHGIS (1820)"
 ];

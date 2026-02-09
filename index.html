@@ -74,13 +74,11 @@
       gap: 6px;
     }
 
-    /* 기존 플러그인 기본 화살표 제거 */
     .leaflet-control-layers-group-name::before{
       content: "" !important;
       display: none !important;
     }
 
-    /* Fold button */
     .group-fold-btn{
       margin-left: auto;
       display: inline-flex;
@@ -240,27 +238,20 @@
         })
       });
 
-      // Karun points
       const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
-
       const tl_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const tl_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const tl_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
       const tl_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
-
-      // Admin border (default ON)
       const admin_v1 = await loadGeoJSON('./data/admin_lv1.geojson', {
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
       admin_v1.addTo(map);
-
-      // Willow palisade
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-
       const groupedOverlays = {
         "기타": {
           "성경장군 관할 경계선": admin_v1
@@ -293,7 +284,6 @@
         }
       };
 
-      // Layer control
       const layerCtl = L.control.groupedLayers(baseLayers, groupedOverlays, {
         collapsed: false,
         groupsCollapsible: false,

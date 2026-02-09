@@ -10,350 +10,305 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-groupedlayercontrol/0.6.1/leaflet.groupedlayercontrol.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-groupedlayercontrol/0.6.1/leaflet.groupedlayercontrol.min.js"></script>
+
   <link rel="stylesheet" href="./css/site.css" />
 
   <style>
     html, body { height: 100%; margin: 0; overflow: hidden; }
-    .leaflet-tooltip.plain-label {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    color: #000;
-    font-size: 12px;
-    font-weight: 600;
-    text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+
+    /* Top nav */
+    .topnav{
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 44px;
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      padding: 0 80px;
+      background: rgba(255,255,255,0.95);
+      z-index: 1000;
+      border-bottom: 1px solid #ddd;
     }
-  .leaflet-tooltip.plain-label:before {
-    display: none !important;
-  }
-    .sleeper-icon { background: transparent; border: none; }
-.sleeper-bar {
-  width: 10px;
-  height: 2px;
-  background: #111;
-  opacity: 0.9;
-}
-.topnav{
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 44px;
-  display: flex;
-  gap: 48px;
-  align-items: center;
-  padding: 0 80px;
-  background: rgba(255,255,255,0.95);
-  z-index: 1000;
-  border-bottom: 1px solid #ddd;
-}
+    .topnav a{ text-decoration:none; color:#111; font-weight:600; }
 
-#map{
-  height: calc(100% - 44px);
-  margin-top: 44px;
-}
-.leaflet-control-layers {
-  max-height: calc(100vh - 60px);
-  overflow: hidden;
-}
-.leaflet-control-layers-overlays {
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 6px;
-}
-.leaflet-control-layers-group-name{
-  cursor: pointer;
-  font-weight: 800;
-  margin-top: 6px;
-  user-select: none;
-}
-.leaflet-control-layers-group-name{
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-    
-.group-fold-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.9);
-  cursor: pointer;
-  user-select: none;
-  font-size: 12px;
-  line-height: 1;
-}
+    /* Map fills rest of viewport */
+    #map{
+      height: calc(100% - 44px);
+      margin-top: 44px;
+    }
 
-.group-fold-btn:hover{
-  background: #f0f0f0;
-}
+    /* Tooltip labels */
+    .leaflet-tooltip.plain-label{
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      color: #000;
+      font-size: 12px;
+      font-weight: 600;
+      text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+    }
+    .leaflet-tooltip.plain-label:before{ display: none !important; }
 
-.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-list,
-.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-items,
-.leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-layers{
-  display: none !important;
-}
-.leaflet-control-layers-group-name::before { content: "" !important; display:none !important; }
-.group-fold-btn{ margin-left: auto; }
+    /* Make layers control scroll internally (not whole page) */
+    .leaflet-control-layers{
+      max-height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+    .leaflet-control-layers-overlays{
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 6px;
+    }
+
+    /* Group header */
+    .leaflet-control-layers-group-name{
+      cursor: default;
+      font-weight: 800;
+      margin-top: 6px;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 기존 플러그인 기본 화살표 제거 */
+    .leaflet-control-layers-group-name::before{
+      content: "" !important;
+      display: none !important;
+    }
+
+    /* Fold button */
+    .group-fold-btn{
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .group-fold-btn:hover{ background: #f0f0f0; }
+
+
+    .leaflet-control-layers-group.is-collapsed label{
+      display: none !important;
+    }
+
+    .leaflet-control-layers-group.is-collapsed .leaflet-control-layers-group-name{
+      display: flex !important;
+    }
   </style>
 </head>
 <body>
   <nav class="topnav">
-  <a href="https://mucenfere.github.io/">Home</a>
-  <a href="./index.html">Map</a>
-  <a href="./gazetteer.html">Gazetteer</a>
-  <a href="./reference.html">Reference</a>
-  <a href="./lop.html">Work Log</a>
-</nav>
-<div id="map"></div>
+    <a href="https://mucenfere.github.io/">Home</a>
+    <a href="./index.html">Map</a>
+    <a href="./gazetteer.html">Gazetteer</a>
+    <a href="./reference.html">Reference</a>
+    <a href="./lop.html">Work Log</a>
+  </nav>
 
-<script>
-  const map = L.map('map').setView([42, 126], 7);
+  <div id="map"></div>
 
-  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-  });
+  <script>
+    const map = L.map('map').setView([42, 126], 7);
 
-  const satellite = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { maxZoom: 19, attribution: '&copy; Esri' }
-  );
-
-  const labels = L.tileLayer(
-    'https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
-    { maxZoom: 19, attribution: '&copy; Esri' }
-  );
-
-  const satelliteWithLabels = L.layerGroup([satellite, labels]);
-
-  satelliteWithLabels.addTo(map);
-
-  const baseLayers = {
-    "위성": satelliteWithLabels,
-    "OSM": osm
-  };
-  
-  const willowpalisade = {
-  color: '#d60000',
-  weight: 2,
-  opacity: 1
-};
-  
-  async function loadGeoJSON(url, options = {}) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to fetch ${url} (HTTP ${res.status})`);
-  const gj = await res.json();
-
-  return L.geoJSON(gj, {
-    style: options.style,
-    pointToLayer: options.pointToLayer,
-    onEachFeature: (feature, layer) => {
-      const p = feature.properties || {};
-      const labelText =
-        p.NAME_FT || p.NAME_CH || p.NAME_PY || p.name || p.name_ko || p.name_zh || '정보';
-
-      layer.bindPopup(`<b>${labelText}</b>`);
-
-      if (options.label === true && layer instanceof L.CircleMarker) {
-        layer.bindTooltip(labelText, {
-          permanent: true,
-          direction: 'top',
-          offset: [0, -6],
-          opacity: 1,
-          className: 'plain-label'
-        });
-      }
-    }
-  });
-}
-  (async () => {
-    const chgisprov_pgn = await loadGeoJSON('./data/v6_1820_prov_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
-    const chgispref_pgn = await loadGeoJSON('./data/v6_1820_pref_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
-    const chgispref_pts = await loadGeoJSON('./data/v6_1820_pref_pts.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
-    const chgistwn_pts = await loadGeoJSON('./data/v6_1820_twn_pts.geojson', {
-     label: true,
-     pointToLayer: (f, latlng) => L.circleMarker(latlng, {
-    radius: 2,
-    color: '#000000',
-    weight: 1,
-    fillColor: '#000000',
-    fillOpacity: 1
-  })
-});
-    const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
+    // Basemaps
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
     });
 
-    const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
+    const satellite = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      { maxZoom: 19, attribution: '&copy; Esri' }
+    );
 
-    const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
+    const labels = L.tileLayer(
+      'https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+      { maxZoom: 19, attribution: '&copy; Esri' }
+    );
 
-    const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
+    const satelliteWithLabels = L.layerGroup([satellite, labels]).addTo(map);
 
-    const tl_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
-
-    const tl_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
-
-    const tl_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
-
-    const tl_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
-
-    const admin_v1 = await loadGeoJSON('./data/admin_lv1.geojson', {
-      style: {
-        color: '#000000',
-        weight: 4,
-        opacity: 0.8
-      }
-    });
-    admin_v1.addTo(map);
-    const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
-    const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-    const cities = await loadGeoJSON('./data/cities.geojson', {
-      pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 })
-    });
-
-    const groupedOverlays = {
-      "기타": {
-        "성경장군 관할 경계선": admin_v1,
-      },
-      "유조변": {
-        "유조변(강희-옹정)": wpkangxi,
-        "유조변(건륭이후)": wpqianlong
-      },
-      "강희기 카룬": {
-        "邊臺(강희기)": dk_kx,
-        "카룬(강희기)": tl_kx
-      },
-      "옹정기 카룬": {
-        "변내카룬(옹정기)": dk_yz,
-        "변외카룬(옹정기)": tl_yz
-      },
-      "건륭기 카룬": {
-        "변내카룬(건륭기)": dk_ql,
-        "변외카룬(건륭기)": tl_ql
-      },
-      "가경기 카룬": {
-        "변내카룬(가경기)": dk_jq,
-        "변외카룬(가경기)": tl_jq
-      },
-      "참고자료_CHGIS (1820)": {
-        "省 경계선(1820_CHGIS)": chgisprov_pgn,
-        "府 경계선(1820_CHGIS)": chgispref_pgn,
-        "府 치소(1820_CHGIS)": chgispref_pts,
-        "지명(1820_CHGIS)": chgistwn_pts
-      },
+    const baseLayers = {
+      "위성": satelliteWithLabels,
+      "OSM": osm
     };
-console.log("groupedLayers exists?", typeof L.control.groupedLayers);
-const layerCtl = L.control.groupedLayers(baseLayers, groupedOverlays, {
-  collapsed: false,
-  groupsCollapsible: false,
-  groupCheckboxes: false
-}).addTo(map);
-function collapseGroupByName(groupName) {
-  const groupEls = document.querySelectorAll('.leaflet-control-layers-group');
 
-  groupEls.forEach(groupEl => {
-    const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
-    const btn = nameEl?.querySelector('.group-fold-btn');
-    if (!nameEl || !btn) return;
+    // Styles
+    const willowpalisade = { color: '#d60000', weight: 2, opacity: 1 };
 
-    const groupLabel = (nameEl.textContent || "").replace(/[▾▸]/g, "").trim();
-    if (groupLabel !== groupName) return;
+    async function loadGeoJSON(url, options = {}) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Failed to fetch ${url} (HTTP ${res.status})`);
+      const gj = await res.json();
 
-    groupEl.classList.add('is-collapsed');
-    btn.textContent = '▸';
-    
-    const listEl =
-      groupEl.querySelector('.leaflet-control-layers-group-list') ||
-      groupEl.querySelector('.leaflet-control-layers-group-items') ||
-      groupEl.querySelector('.leaflet-control-layers-group-layers') ||
-      nameEl.nextElementSibling;
+      return L.geoJSON(gj, {
+        style: options.style,
+        pointToLayer: options.pointToLayer,
+        onEachFeature: (feature, layer) => {
+          const p = feature.properties || {};
+          const labelText =
+            p.NAME_FT || p.NAME_CH || p.NAME_PY || p.name || p.name_ko || p.name_zh || '정보';
 
-    if (listEl) listEl.style.display = 'none';
-  });
-}
-function attachGroupFoldButtons() {
-  const container = layerCtl.getContainer();
-  if (!container) return;
+          layer.bindPopup(`<b>${labelText}</b>`);
 
-  const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
+          if (options.label === true && layer instanceof L.CircleMarker) {
+            layer.bindTooltip(labelText, {
+              permanent: true,
+              direction: 'top',
+              offset: [0, -6],
+              opacity: 1,
+              className: 'plain-label'
+            });
+          }
+        }
+      });
+    }
 
-  groupEls.forEach(groupEl => {
-    const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
-    if (!nameEl) return;
-    if (nameEl.querySelector('.group-fold-btn')) return;
-    const listEl =
-      groupEl.querySelector('.leaflet-control-layers-group-list') ||
-      groupEl.querySelector('.leaflet-control-layers-group-items') ||
-      groupEl.querySelector('.leaflet-control-layers-group-layers') ||
-      nameEl.nextElementSibling;
+    function attachGroupFoldButtons(layerCtl) {
+      const container = layerCtl.getContainer();
+      if (!container) return;
 
-    const btn = document.createElement('span');
-    btn.className = 'group-fold-btn';
-    btn.textContent = '▾';
+      const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      groupEls.forEach(groupEl => {
+        const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
+        if (!nameEl) return;
+      
+        if (nameEl.querySelector('.group-fold-btn')) return;
 
-      const collapsed = groupEl.classList.toggle('is-collapsed');
-      btn.textContent = collapsed ? '▸' : '▾';
+        const btn = document.createElement('span');
+        btn.className = 'group-fold-btn';
+        btn.textContent = '▾';
 
-      if (listEl) listEl.style.display = collapsed ? 'none' : '';
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const collapsed = groupEl.classList.toggle('is-collapsed');
+          btn.textContent = collapsed ? '▸' : '▾';
+        });
+
+        nameEl.appendChild(btn);
+      });
+    }
+
+    function collapseGroupsOnStart(layerCtl, groupNames) {
+      const container = layerCtl.getContainer();
+      if (!container) return;
+
+      const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
+
+      groupEls.forEach(groupEl => {
+        const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
+        if (!nameEl) return;
+
+        const label = (nameEl.textContent || "").replace(/[▾▸]/g, "").trim();
+        if (!groupNames.includes(label)) return;
+
+        groupEl.classList.add('is-collapsed');
+
+        const btn = nameEl.querySelector('.group-fold-btn');
+        if (btn) btn.textContent = '▸';
+      });
+    }
+
+    (async () => {
+      // CHGIS
+      const chgisprov_pgn = await loadGeoJSON('./data/v6_1820_prov_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
+      const chgispref_pgn = await loadGeoJSON('./data/v6_1820_pref_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
+      const chgispref_pts = await loadGeoJSON('./data/v6_1820_pref_pts.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
+      const chgistwn_pts = await loadGeoJSON('./data/v6_1820_twn_pts.geojson', {
+        label: true,
+        pointToLayer: (f, latlng) => L.circleMarker(latlng, {
+          radius: 2,
+          color: '#000000',
+          weight: 1,
+          fillColor: '#000000',
+          fillOpacity: 1
+        })
+      });
+
+      // Karun points
+      const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+
+      const tl_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const tl_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const tl_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      const tl_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', { pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+
+      // Admin border (default ON)
+      const admin_v1 = await loadGeoJSON('./data/admin_lv1.geojson', {
+        style: { color: '#000000', weight: 4, opacity: 0.8 }
+      });
+      admin_v1.addTo(map);
+
+      // Willow palisade
+      const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
+      const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
+
+      const groupedOverlays = {
+        "기타": {
+          "성경장군 관할 경계선": admin_v1
+        },
+        "유조변": {
+          "유조변(강희-옹정)": wpkangxi,
+          "유조변(건륭이후)": wpqianlong
+        },
+        "강희기 카룬": {
+          "邊臺(강희기)": dk_kx,
+          "카룬(강희기)": tl_kx
+        },
+        "옹정기 카룬": {
+          "변내카룬(옹정기)": dk_yz,
+          "변외카룬(옹정기)": tl_yz
+        },
+        "건륭기 카룬": {
+          "변내카룬(건륭기)": dk_ql,
+          "변외카룬(건륭기)": tl_ql
+        },
+        "가경기 카룬": {
+          "변내카룬(가경기)": dk_jq,
+          "변외카룬(가경기)": tl_jq
+        },
+        "참고자료_CHGIS (1820)": {
+          "省 경계선(1820_CHGIS)": chgisprov_pgn,
+          "府 경계선(1820_CHGIS)": chgispref_pgn,
+          "府 치소(1820_CHGIS)": chgispref_pts,
+          "지명(1820_CHGIS)": chgistwn_pts
+        }
+      };
+
+      // Layer control
+      const layerCtl = L.control.groupedLayers(baseLayers, groupedOverlays, {
+        collapsed: false,
+        groupsCollapsible: false,
+        groupCheckboxes: false
+      }).addTo(map);
+      
+      setTimeout(() => {
+        attachGroupFoldButtons(layerCtl);
+        collapseGroupsOnStart(layerCtl, ["참고자료_CHGIS (1820)"]);
+      }, 150);
+
+    })().catch(err => {
+      console.error(err);
+      alert(err.message || err);
     });
-    nameEl.appendChild(btn);
-  });
-}
-function collapseGroupByName(groupName) {
-  const container = layerCtl.getContainer();
-  if (!container) return;
-
-  const groupEls = container.querySelectorAll('.leaflet-control-layers-group');
-
-  groupEls.forEach(groupEl => {
-    const nameEl = groupEl.querySelector('.leaflet-control-layers-group-name');
-    if (!nameEl) return;
-    const groupLabel = (nameEl.textContent || "").replace(/[▾▸]/g, "").trim();
-    if (groupLabel !== groupName) return;
-    const btn = nameEl.querySelector('.group-fold-btn');
-
-    groupEl.classList.add('is-collapsed');
-    if (btn) btn.textContent = '▸';
-
-    const listEl =
-      groupEl.querySelector('.leaflet-control-layers-group-list') ||
-      groupEl.querySelector('.leaflet-control-layers-group-items') ||
-      groupEl.querySelector('.leaflet-control-layers-group-layers') ||
-      nameEl.nextElementSibling;
-
-    if (listEl) listEl.style.display = 'none';
-  });
-}
-setTimeout(() => {
-  attachGroupFoldButtons();
-  ["참고자료_CHGIS (1820)"].forEach(collapseGroupByName);
-}, 150);
-  })().catch(err => { console.error(err); alert(err.message || err); });
-</script>
+  </script>
 </body>
 </html>

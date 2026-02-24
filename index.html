@@ -183,11 +183,7 @@ function closeInfoPanel(){
   document.body.classList.remove('panel-open');
   setTimeout(() => map.invalidateSize(), 0);
 }
-
-if (infoCloseEl) infoCloseEl.addEventListener('click', closeInfoPanel);
-    layer.on('click', () => {
-  if (panel) openInfoPanel(labelText, p);
-});
+    if (infoCloseEl) infoCloseEl.addEventListener('click', closeInfoPanel);
     
     // Basemaps
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

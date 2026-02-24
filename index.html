@@ -170,7 +170,7 @@
       //icon
 
 const icon_wp_gate = L.icon({
-  iconUrl: './data/img/willow_gate.png',
+  iconUrl: './data/img/willowgateicon.png',
   iconSize: [18, 18],
   iconAnchor: [9, 9],
   popupAnchor: [0, -9]
@@ -195,7 +195,7 @@ const mkTriPt = (color, { size = 14, label = false } = {}) => ({
   pointToLayer: (f, latlng) => L.marker(latlng, { icon })
 });
       
-const KX = '#1f77b4';
+const KX = '#004eff';
 const YZ = '#ff7f0e';
 const QL = '#2ca02c';
 const JQ = '#d62728';
@@ -225,15 +225,11 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
       const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);
         
       const groupedOverlays = {
-        "기타": { "성경장군 관할 경계선": admin_v1 },
-        "유조변": {
-          "유조변(강희-옹정)": wpkangxi,
-          "유조변(건륭이후)": wpqianlong_bundle
-        },
-        "강희기 카룬": { "邊臺(강희기)": dk_kx, "카룬(강희기)": tk_kx },
-        "옹정기 카룬": { "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
-        "건륭기 카룬": { "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },
-        "가경기 카룬": { "변내카룬(가경기)": dk_jq, "변외카룬(가경기)": tk_jq },
+        "행정구역": { "성경장군 관할 경계선": admin_v1 },
+        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi, "邊臺(강희기)": dk_kx, "카룬(강희기)": tk_kx },
+        "옹정기 카룬": { "유조변(강희-옹정)": wpkangxi, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
+        "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },
+        "가경기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(가경기)": dk_jq, "변외카룬(가경기)": tk_jq },
         "참고자료_CHGIS (1820)": {
           "省 경계선(1820_CHGIS)": chgisprov_pgn,
           "府 경계선(1820_CHGIS)": chgispref_pgn,

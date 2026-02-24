@@ -174,7 +174,7 @@ function openInfoPanel(title, props){
   panel.classList.remove('hidden');
   document.body.classList.add('panel-open');
 
-  // 패널 열리면 지도 리사이즈(중요)
+  /* 패널 열리면 지도 리사이즈(중요) */
   setTimeout(() => map.invalidateSize(), 0);
 }
 

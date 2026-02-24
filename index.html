@@ -157,8 +157,17 @@
       });
 
       // Karun points
-      const mkPt = () => ({ pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
-
+      // Karun PNG icon
+         const karunIcon = L.icon({
+           iconUrl: 'mukden_karun/img/karun.png',
+           iconSize: [18, 18],
+           iconAnchor: [9, 9],
+           popupAnchor: [0, -9]
+         });
+     // Karun points: CircleMarker -> PNG Marker
+         const mkPt = () => ({
+           pointToLayer: (f, latlng) => L.marker(latlng, { icon: karunIcon })
+         });
       const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkPt());
       const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkPt());
       const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkPt());

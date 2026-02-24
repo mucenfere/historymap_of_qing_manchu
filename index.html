@@ -134,7 +134,7 @@
         onEachFeature: (feature, layer) => {
           const p = feature.properties || {};
           const labelText =
-            p.NAME_FT || p.NAME_CH || p.NAME_PY || p.name || p.name_ko || p.name_zh || '정보';
+            p.label || p.NAME_FT || p.NAME_CH || p.NAME_PY || p.name || p.name_ko || p.name_zh || '정보';
 
           layer.bindPopup(`<b>${labelText}</b>`);
 

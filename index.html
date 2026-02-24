@@ -31,7 +31,7 @@
     }
     .topnav a{ text-decoration:none; color:#111; font-weight:600; }
 
-    /삼각형 라벨/
+    /* 삼각형 라벨 */
     .tri {
   width: 14px;
   height: 14px;
@@ -190,6 +190,10 @@ const mkTriPt = (color, { size = 14, label = false } = {}) => ({
   label,
   pointToLayer: (f, latlng) => L.marker(latlng, { icon: mkTriIcon(color, size) })
 });
+      const mkIconPt = (icon, { label = false } = {}) => ({
+  label,
+  pointToLayer: (f, latlng) => L.marker(latlng, { icon })
+});
       
 const KX = '#1f77b4';
 const YZ = '#ff7f0e';
@@ -215,7 +219,7 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
 
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-      const wp_gate_pts = await loadGeoJSON('./data/willowpalisade-gate-gianlong.geojson',
+      const wp_gate_pts = await loadGeoJSON('./data/willowpalisade-gate-qianlong.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
       const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);

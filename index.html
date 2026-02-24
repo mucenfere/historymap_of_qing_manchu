@@ -180,11 +180,17 @@
 
 const icon_wp_gate = L.icon({
   iconUrl: './data/img/willowgateicon.png',
-  iconSize: [14, 14],
+  iconSize: [12, 12],
   iconAnchor: [9, 9],
   popupAnchor: [0, -9]
 });
-
+const icon_giyamun = L.icon({
+  iconUrl: './data/img/giyamunicon.png',
+  iconSize: [12, 12],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});   
+      
 // Triangle icon factory (no PNG)
 const mkTriIcon = (color, size = 14) => L.divIcon({
   className: '', // Leaflet
@@ -225,7 +231,9 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
       admin_v1.addTo(map);
-
+      const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
+      mkIconPt(icon_giyamun, { label: false })
+      );
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpyongzheng = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
@@ -241,7 +249,7 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
       const wpjiaqing_bundle = L.layerGroup([wpjiaqing, wp_gate_jq_pts]);
         
       const groupedOverlays = {
-        "행정구역": { "성경장군 관할 경계선": admin_v1 },
+        "기본지리정보": { "성경장군 관할 경계선": admin_v1, "역참: giyamun_pt" },
         "강희기 카룬": { "유조변(강희-옹정)": wpkangxi, "邊臺(강희기)": dk_kx, "변외카룬(강희기)": tk_kx },
         "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
         "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },

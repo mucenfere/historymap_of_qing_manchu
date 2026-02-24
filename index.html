@@ -127,7 +127,7 @@
 
           layer.bindPopup(`<b>${labelText}</b>`);
 
-          if (options.label === true && layer instanceof L.CircleMarker) {
+          if (options.label === true) {
             layer.bindTooltip(labelText, {
               permanent: true,
               direction: 'top',
@@ -164,43 +164,24 @@ const icon_tk_kx = L.icon({
   popupAnchor: [0, -9]
 });
 
-const icon_tk_yz = L.icon({
-  iconUrl: './data/img/karun_yongzheng.png',
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
-  popupAnchor: [0, -9]
-});
-
-const icon_tk_ql = L.icon({
-  iconUrl: './data/img/karun_qianlong.png',
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
-  popupAnchor: [0, -9]
-});
-
-const icon_tk_jq = L.icon({
-  iconUrl: './data/img/karun_jiaqing.png',
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
-  popupAnchor: [0, -9]
-});
-
 const icon_wp_gate = L.icon({
   iconUrl: './data/img/willow_gate.png',
   iconSize: [18, 18],
   iconAnchor: [9, 9],
   popupAnchor: [0, -9]
 });
+      
 const mkIconPt = (icon, { label = false } = {}) => ({
   label,
   pointToLayer: (f, latlng) => L.marker(latlng, { icon })
 });
-
+const mkPt = () => ({ pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+      
       const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkPt());
       const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkPt());
       const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkPt());
       const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkPt());
-      const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkIconPt(icon_tk_kx));
+      const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkIconPt(icon_tk_kx, {label:true}));
       const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkPt());
       const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkPt());
       const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkPt());
@@ -220,7 +201,7 @@ const mkIconPt = (icon, { label = false } = {}) => ({
         "기타": { "성경장군 관할 경계선": admin_v1 },
         "유조변": {
           "유조변(강희-옹정)": wpkangxi,
-          "유조변(건륭이후)": wpqianlong
+          "유조변(건륭이후)": wpqianlong_bundle
         },
         "강희기 카룬": { "邊臺(강희기)": dk_kx, "카룬(강희기)": tk_kx },
         "옹정기 카룬": { "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },

@@ -141,6 +141,13 @@ body.panel-open #map{
   </nav>
 
   <div id="map"></div>
+  <div id="infoPanel" class="info-panel hidden">
+  <div class="info-head">
+    <div id="infoTitle" class="info-title">정보</div>
+    <button id="infoClose" class="info-close" type="button">×</button>
+  </div>
+  <div id="infoBody" class="info-body"></div>
+</div>
 
   <script>
     const map = L.map('map').setView([42, 126], 7);

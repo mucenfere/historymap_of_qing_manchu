@@ -156,23 +156,51 @@
         })
       });
 
-      // Karun points
-      // Karun PNG icon
-         const karunIcon = L.icon({
-           iconUrl: './data/img/flag_silver.png',
-           iconSize: [20, 20],
-           iconAnchor: [9, 9],
-           popupAnchor: [0, -9]
-         });
-     // Karun points: CircleMarker -> PNG Marker
-         const mkPt = () => ({
-           pointToLayer: (f, latlng) => L.marker(latlng, { icon: karunIcon })
-         });
+      //icon
+const icon_tk_kx = L.icon({
+  iconUrl: './data/img/flag_silver.png',
+  iconSize: [22, 16],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});
+
+const icon_tk_yz = L.icon({
+  iconUrl: './data/img/karun_yongzheng.png',
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});
+
+const icon_tk_ql = L.icon({
+  iconUrl: './data/img/karun_qianlong.png',
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});
+
+const icon_tk_jq = L.icon({
+  iconUrl: './data/img/karun_jiaqing.png',
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});
+
+const icon_wp_gate = L.icon({
+  iconUrl: './data/img/willow_gate.png',
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+  popupAnchor: [0, -9]
+});
+const mkIconPt = (icon, { label = false } = {}) => ({
+  label,
+  pointToLayer: (f, latlng) => L.marker(latlng, { icon })
+});
+
       const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkPt());
       const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkPt());
       const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkPt());
       const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkPt());
-      const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkPt());
+      const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkIconPt(icon_tk_kx));
       const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkPt());
       const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkPt());
       const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkPt());
@@ -183,7 +211,11 @@
 
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-
+      const wp_gate_pts = await loadGeoJSON('./data/willowpalisade-gates-qianlong.geojson',
+      mkIconPt(icon_wp_gate, { label: false })
+      );
+      const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);
+        
       const groupedOverlays = {
         "기타": { "성경장군 관할 경계선": admin_v1 },
         "유조변": {

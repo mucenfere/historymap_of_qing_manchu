@@ -223,13 +223,13 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
       const wp_gate_ql_pts = await loadGeoJSON('./data/willowpalisade-gate-qianlong.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
-      const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);
+      const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_ql_pts]);
       
       const wpjiaqing = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
       const wp_gate_jq_pts = await loadGeoJSON('./data/willowpalisade-gate-qianlong.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
-      const wpjiaqing_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);
+      const wpjiaqing_bundle = L.layerGroup([wpjiaqing, wp_gate_jq_pts]);
         
       const groupedOverlays = {
         "행정구역": { "성경장군 관할 경계선": admin_v1 },

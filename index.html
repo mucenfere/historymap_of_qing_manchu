@@ -31,6 +31,17 @@
     }
     .topnav a{ text-decoration:none; color:#111; font-weight:600; }
 
+    /삼각형 라벨/
+    .tri {
+  width: 14px;
+  height: 14px;
+  background: var(--tri, #d62728);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border: 1px solid rgba(0,0,0,0.75);
+  box-sizing: border-box;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,0.8));
+}
+    
     /* Map fills rest of viewport */
     #map{
       height: calc(100% - 44px);
@@ -157,12 +168,6 @@
       });
 
       //icon
-const icon_tk_kx = L.icon({
-  iconUrl: './data/img/flag_silver.png',
-  iconSize: [22, 16],
-  iconAnchor: [9, 9],
-  popupAnchor: [0, -9]
-});
 
 const icon_wp_gate = L.icon({
   iconUrl: './data/img/willow_gate.png',
@@ -170,21 +175,39 @@ const icon_wp_gate = L.icon({
   iconAnchor: [9, 9],
   popupAnchor: [0, -9]
 });
-      
-const mkIconPt = (icon, { label = false } = {}) => ({
-  label,
-  pointToLayer: (f, latlng) => L.marker(latlng, { icon })
+
+// Triangle icon factory (no PNG)
+const mkTriIcon = (color, size = 14) => L.divIcon({
+  className: '', // Leaflet
+  html: `<div class="tri" style="--tri:${color}; width:${size}px; height:${size}px;"></div>`,
+  iconSize: [size, size],
+  iconAnchor: [size / 2, size / 2], 
+  popupAnchor: [0, -size / 2]
 });
-const mkPt = () => ({ pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 5, weight: 2, fillOpacity: 0.7 }) });
+
+// GeoJSON point options using triangle marker
+const mkTriPt = (color, { size = 14, label = false } = {}) => ({
+  label,
+  pointToLayer: (f, latlng) => L.marker(latlng, { icon: mkTriIcon(color, size) })
+});
       
-      const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkPt());
-      const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkPt());
-      const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkPt());
-      const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkPt());
-      const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkIconPt(icon_tk_kx, {label:true}));
-      const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkPt());
-      const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkPt());
-      const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkPt());
+const KX = '#1f77b4';
+const YZ = '#ff7f0e';
+const QL = '#2ca02c';
+const JQ = '#d62728';
+
+// dorgi
+const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(KX));
+const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(YZ));
+const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(QL));
+const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(JQ));
+
+// tulergi
+const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(KX));
+const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(YZ));
+const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkTriPt(QL));
+const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(JQ));
+      
       const admin_v1 = await loadGeoJSON('./data/admin_lv1.geojson', {
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
@@ -192,7 +215,7 @@ const mkPt = () => ({ pointToLayer: (f, latlng) => L.circleMarker(latlng, { radi
 
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-      const wp_gate_pts = await loadGeoJSON('./data/willowpalisade-gates-qianlong.geojson',
+      const wp_gate_pts = await loadGeoJSON('./data/willowpalisade-gate-gianlong.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
       const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_pts]);

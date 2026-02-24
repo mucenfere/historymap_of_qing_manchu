@@ -42,11 +42,11 @@
   filter: drop-shadow(0 1px 1px rgba(255,255,255,0.8));
 }
     
-    /* Map fills rest of viewport */
-    #map{
-      height: calc(100% - 44px);
-      margin-top: 44px;
-    }
+#map{
+  width: 100%;
+  height: calc(100% - 44px);
+  margin-top: 44px;
+}
 
     /* Tooltip labels */
     .leaflet-tooltip.plain-label{
@@ -122,11 +122,6 @@
 .info-body table{ width:100%; border-collapse: collapse; }
 .info-body th{ text-align:left; padding:4px 8px 4px 0; white-space:nowrap; vertical-align: top; }
 .info-body td{ padding:4px 0; word-break: break-word; }
-
-/* When panel is open, reduce map width */
-body.panel-open #map{
-  width: calc(100% - 360px);
-}
      
   </style>
 </head>
@@ -152,6 +147,8 @@ body.panel-open #map{
   <script>
     const map = L.map('map').setView([42, 126], 7);
 const panel = document.getElementById('infoPanel');
+L.DomEvent.disableClickPropagation(panel);
+L.DomEvent.disableScrollPropagation(panel);
 const infoTitleEl = document.getElementById('infoTitle');
 const infoBodyEl  = document.getElementById('infoBody');
 const infoCloseEl = document.getElementById('infoClose');
@@ -174,14 +171,9 @@ function openInfoPanel(title, props){
   panel.classList.remove('hidden');
   document.body.classList.add('panel-open');
 
-  /* 패널 열리면 지도 리사이즈(중요) */
-  setTimeout(() => map.invalidateSize(), 0);
-}
-
 function closeInfoPanel(){
   panel.classList.add('hidden');
   document.body.classList.remove('panel-open');
-  setTimeout(() => map.invalidateSize(), 0);
 }
     if (infoCloseEl) infoCloseEl.addEventListener('click', closeInfoPanel);
     

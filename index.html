@@ -357,7 +357,7 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
       admin_v1.addTo(map);
-      const admin_pts = await loadGeoJSON('./data/manchu_admin_pt..geojson', {
+      const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
   label: true,
   pointToLayer: (feature, latlng) => {
     const p = feature.properties || {};

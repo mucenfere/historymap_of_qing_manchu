@@ -31,28 +31,8 @@
     }
     .topnav a{ text-decoration:none; color:#111; font-weight:600; }
 
-/* lv1: 이중원 */
-.admin-lv1{
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  border: 2px solid #000;
-  box-sizing: border-box;
-  background: transparent;
-  position: relative;
-}
-.admin-lv1::after{
-  content:"";
-  position:absolute;
-  left:50%; top:50%;
-  width: 8px; height: 8px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 2px solid #000;
-  box-sizing: border-box;
-}
-
-/* lv2: 작은 점 */
-.admin-lv2{
+/* lv1, lv2: 아이콘 */
+.admin-dot{
   width: 6px; height: 6px;
   border-radius: 50%;
   background: #000;
@@ -191,8 +171,7 @@ const oms = new OverlappingMarkerSpiderfier(map, {
 });
     
     
-const icon_lv1 = mkDivIcon('admin-lv1', 16);
-const icon_lv2 = mkDivIcon('admin-lv2', 6);
+const icon_admin = mkDivIcon('admin-dot', 16);
     
 const panel = document.getElementById('infoPanel');
 L.DomEvent.disableClickPropagation(panel);
@@ -361,11 +340,15 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
     const p = feature.properties || {};
     const lv = p.lv;
 
-    let icon = icon_lv2;
-    if (lv === 'lv1') icon = icon_lv1;
-    else if (lv === 'lv2') icon = icon_lv2;
-
-    const marker = L.marker(latlng, { icon });
+const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
+  label: true,
+  pointToLayer: (feature, latlng) => {
+    const marker = L.marker(latlng, { icon: icon_admin });
+    oms.addMarker(marker);
+    return marker;
+  }
+});
+    
     oms.addMarker(marker);
     return marker;
   }

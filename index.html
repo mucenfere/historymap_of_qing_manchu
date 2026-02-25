@@ -7,7 +7,7 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+  <script src="https://unpkg.com/overlapping-marker-spiderfier-leaflet@0.3.3/oms.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-groupedlayercontrol/0.6.1/leaflet.groupedlayercontrol.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-groupedlayercontrol/0.6.1/leaflet.groupedlayercontrol.min.js"></script>
 
@@ -31,6 +31,35 @@
     }
     .topnav a{ text-decoration:none; color:#111; font-weight:600; }
 
+/* lv1: 이중원 */
+.admin-lv1{
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  background: transparent;
+  position: relative;
+}
+.admin-lv1::after{
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  width: 8px; height: 8px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid #000;
+  box-sizing: border-box;
+}
+
+/* lv2: 작은 점 */
+.admin-lv2{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #000;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+    
     /* 삼각형 라벨 */
     .tri {
   width: 14px;
@@ -148,6 +177,23 @@
 
   <script>
     const map = L.map('map').setView([42, 126], 7);
+    const mkDivIcon = (className, size) => L.divIcon({
+  className: '',
+  html: `<div class="${className}"></div>`,
+  iconSize: [size, size],
+  iconAnchor: [size/2, size/2],
+  popupAnchor: [0, -size/2]
+});
+const oms = new OverlappingMarkerSpiderfier(map, {
+  keepSpiderfied: true,   // 펼친 상태 유지(원하면 false)
+  nearbyDistance: 20,     // 겹침 판정 민감도(원하면 조절)
+  legWeight: 1.2
+});
+    
+    
+const icon_lv1 = mkDivIcon('admin-lv1', 16);
+const icon_lv2 = mkDivIcon('admin-lv2', 6);
+    
 const panel = document.getElementById('infoPanel');
 L.DomEvent.disableClickPropagation(panel);
 L.DomEvent.disableScrollPropagation(panel);
@@ -311,6 +357,22 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });
       admin_v1.addTo(map);
+      const admin_pts = await loadGeoJSON('./data/manchu_admin_pt..geojson', {
+  label: true,
+  pointToLayer: (feature, latlng) => {
+    const p = feature.properties || {};
+    const lv = p.lv;
+
+    let icon = icon_lv2;
+    if (lv === 'lv1') icon = icon_lv1;
+    else if (lv === 'lv2') icon = icon_lv2;
+
+    const marker = L.marker(latlng, { icon });
+    oms.addMarker(marker);
+    return marker;
+  }
+});
+    
       const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
       mkIconPt(icon_giyamun, { label: false })
       );
@@ -329,7 +391,7 @@ const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(
       const wpjiaqing_bundle = L.layerGroup([wpjiaqing, wp_gate_jq_pts]);
         
       const groupedOverlays = {
-        "기본지리정보": { "성경장군 관할 경계선": admin_v1, "역참": giyamun_pt },
+        "기본지리정보": { "성경장군 관할 경계선": admin_v1, "행정 지명(lv1/lv2)": admin_pts, "역참": giyamun_pt },
         "강희기 카룬": { "유조변(강희-옹정)": wpkangxi, "邊臺(강희기)": dk_kx, "변외카룬(강희기)": tk_kx },
         "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
         "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },

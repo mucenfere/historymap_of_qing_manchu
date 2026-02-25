@@ -347,9 +347,19 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       mkIconPt(icon_giyamun, { label: false })
       );
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
+      const wp_gate_kx_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',
+      mkIconPt(icon_wp_gate, { label: false })
+      );
+      const wpkangxi_bundle = L.layerGroup([wpkangxi, wp_gate_kx_pts]);
+      
       const wpyongzheng = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
+      const wp_gate_yz_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',
+      mkIconPt(icon_wp_gate, { label: false })
+      );
+      const wpyongzheng_bundle = L.layerGroup([wpyongzheng, wp_gate_yz_pts]);
+      
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-      const wp_gate_ql_pts = await loadGeoJSON('./data/willowpalisade-gate-qianlong.geojson',
+      const wp_gate_ql_pts = await loadGeoJSON('./data/willowpalisade_gate_ql.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
       const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_ql_pts]);
@@ -362,8 +372,8 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
         
       const groupedOverlays = {
         "기본지리정보": { "성경장군 관할 경계선": admin_v1, "행정 지명(lv1/lv2)": admin_pts, "역참": giyamun_pt },
-        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi, "邊臺(강희기)": dk_kx, "변외카룬(강희기)": tk_kx },
-        "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
+        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi_bundle, "邊臺(강희기)": dk_kx, "변외카룬(강희기)": tk_kx },
+        "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng_bundle, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
         "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },
         "가경기 카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "변내카룬(가경기)": dk_jq, "변외카룬(가경기)": tk_jq },
         "참고자료_CHGIS (1820)": { "省 경계선(1820_CHGIS)": chgisprov_pgn, "府 경계선(1820_CHGIS)": chgispref_pgn, "府 치소(1820_CHGIS)": chgispref_pts, "지명(1820_CHGIS)": chgistwn_pts}

@@ -33,11 +33,12 @@
 
 /* lv1, lv2: 아이콘 */
 .admin-dot{
-  width: 6px; height: 6px;
+  width: 10px; height: 10px; 
   border-radius: 50%;
-  background: #000;
-  border: 1px solid #000;
+  background: #3388ff; 
+  border: 2px solid #ffffff; 
   box-sizing: border-box;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35); 
 }
     
     /* 삼각형 라벨 */
@@ -65,8 +66,8 @@
       padding: 0;
       margin: 0;
       color: #000;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       text-shadow: 0 0 2px #fff, 0 0 2px #fff;
     }
     .leaflet-tooltip.plain-label:before{ display: none !important; }
@@ -171,7 +172,7 @@ const oms = new OverlappingMarkerSpiderfier(map, {
 });
     
     
-const icon_admin = mkDivIcon('admin-dot', 16);
+const icon_admin = mkDivIcon('admin-dot', 10);
     
 const panel = document.getElementById('infoPanel');
 L.DomEvent.disableClickPropagation(panel);

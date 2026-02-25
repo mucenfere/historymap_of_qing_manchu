@@ -239,7 +239,7 @@ async function loadGeoJSON(url, options = {}) {
     pointToLayer: options.pointToLayer,
     onEachFeature: (feature, layer) => {
       const p = feature.properties || {};
-      const labelText = p.name || p.name_chf || '정보';
+      const labelText = p.NAME_FT || p.name_chf || '정보';
 
       if (options.label === true) {
         layer.bindTooltip(labelText, {

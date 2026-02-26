@@ -318,17 +318,25 @@ const YZ = '#ff7f0e';
 const QL = '#2ca02c';
 const JQ = '#d62728';
 
-// dorgi
+// 강희기 카룬_번들
 const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(KX));
-const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(YZ));
-const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(QL));
-const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(JQ));
-
-// tulergi
 const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(KX));
+const karun_kx_bundle = L.layerGroup([dk_kx, tk_kx]);
+
+// 옹정기 카룬_번들      
+const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(YZ));
 const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(YZ));
+const karun_yz_bundle = L.layerGroup([dk_yz, tk_yz]);
+
+// 건륭기 카룬_번들
+const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(QL));
 const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkTriPt(QL));
+const karun_ql_bundle = L.layerGroup([dk_ql, tk_ql]);
+      
+// 가경기 카룬_번들
+const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(JQ));
 const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(JQ));
+const karun_jq_bundle = L.layerGroup([dk_jq, tk_jq]);
       
 const admin_v1 = await loadGeoJSON('./data/admin_lv1_line.geojson', {
         style: { color: '#000000', weight: 4, opacity: 0.8 }
@@ -350,6 +358,7 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       mkIconPt(icon_wp_gate, { label: false })
       );
       const wpkangxi_bundle = L.layerGroup([wpkangxi, wp_gate_kx_pts]);
+      wpkangxi_bundle.addTo(map)
       
       const wpyongzheng = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wp_gate_yz_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',
@@ -371,10 +380,10 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
         
       const groupedOverlays = {
         "기본지리정보": { "성경장군 관할 경계선": admin_v1, "행정 지명(lv1/lv2)": admin_pts, "역참": giyamun_pt },
-        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi_bundle, "邊臺(강희기)": dk_kx, "변외카룬(강희기)": tk_kx },
-        "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng_bundle, "변내카룬(옹정기)": dk_yz, "변외카룬(옹정기)": tk_yz },
-        "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내카룬(건륭기)": dk_ql, "변외카룬(건륭기)": tk_ql },
-        "가경기 카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "변내카룬(가경기)": dk_jq, "변외카룬(가경기)": tk_jq },
+        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi_bundle, "邊臺/카룬(강희기)": karun_kx_bundle },
+        "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng_bundle, "변내/변외카룬(옹정기)": karun_yz_bundle },
+        "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내/변외카룬(건륭기)": karun_ql_bundle },
+        "가경기 카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "변내/변와카룬(가경기)": karun_jq_bundle },
         "참고자료_CHGIS (1820)": { "省 경계선(1820_CHGIS)": chgisprov_pgn, "府 경계선(1820_CHGIS)": chgispref_pgn, "府 치소(1820_CHGIS)": chgispref_pts, "지명(1820_CHGIS)": chgistwn_pts}
       };
 

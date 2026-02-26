@@ -255,6 +255,15 @@ async function loadGeoJSON(url, options = {}) {
   });
 }
     (async () => {
+      // 국경선(라인) GeoJSON: 바깥 검정 + 안쪽 흰색 (가독성 좋음)
+      const bordersOutline = await loadGeoJSON('./data/borders.geojson', {
+           style: { color: '#000000', weight: 3.5, opacity: 0.35 }
+           });
+      const bordersWhite = await loadGeoJSON('./data/borders.geojson', {
+          style: { color: '#ffffff', weight: 1.8, opacity: 0.9 }
+       });
+      const bordersLayer = L.layerGroup([bordersOutline, bordersWhite]).addTo(map);
+      
       // CHGIS
       const chgisprov_pgn = await loadGeoJSON('./data/v6_1820_prov_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});
       const chgispref_pgn = await loadGeoJSON('./data/v6_1820_pref_pgn.geojson', { style: { weight: 2, fillOpacity: 0.1 }});

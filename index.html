@@ -331,7 +331,8 @@ const JQ = '#d62728';
 const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(KX));
 const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(KX));
 const karun_kx_bundle = L.layerGroup([dk_kx, tk_kx]);
-
+karun_kx_bundle.addTo(map)
+      
 // 옹정기 카룬_번들      
 const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(YZ));
 const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(YZ));

@@ -341,14 +341,28 @@ function makeKarunLayer(gj, { time, ztype, color }) {
     onEachFeature: (feature, layer) => {
       const p = feature.properties || {};
       const labelText = p.name_chf || p.NAME_FT || '정보';
-      // 라벨 필요하면:
-      // layer.bindTooltip(labelText, {permanent:true, direction:'top', offset:[0,-6], className:'plain-label'});
+      layer.bindTooltip(labelText, {
+        permanent: true,
+        direction: 'top',
+        offset: [0, -6],
+        opacity: 1,
+        className: 'plain-label'
+      });
+
       if (typeof openInfoPanel === 'function') {
         layer.on('click', () => openInfoPanel(labelText, p));
       }
     }
   });
 }
+
+      if (typeof openInfoPanel === 'function') {
+        layer.on('click', () => openInfoPanel(labelText, p));
+      }
+    }
+  });
+}
+      
   const mkIconPt = (icon, { label = false } = {}) => ({
     label,
     pointToLayer: (f, latlng) => L.marker(latlng, { icon })

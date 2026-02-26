@@ -319,30 +319,35 @@ const mkTriPt = (color, { size = 14, label = false } = {}) => ({
   pointToLayer: (f, latlng) => L.marker(latlng, { icon })
 });
       
-const KX = '#004eff';
-const YZ = '#ff7f0e';
-const QL = '#2ca02c';
-const JQ = '#d62728';
+
+const dk_KX = '#1F77B4'; // 블루
+const tk_KX = '#FF7F0E'; // 오렌지(블루 보색 계열)
+const dk_YZ = '#9467BD'; // 퍼플
+const tk_YZ = '#BCBD22'; // 올리브-옐로(퍼플 보색 계열, 눈부심 덜함)
+const dk_QL = '#2CA02C'; // 그린
+const tk_QL = '#E377C2'; // 마젠타/핑크(그린 보색 계열)
+const dk_JQ = '#D62728'; // 레드
+const tk_JQ = '#17BECF'; // 시안/청록(레드 보색 계열)
 
 // 강희기 카룬_번들
-const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(KX));
-const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(KX));
+const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(dk_KX));
+const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(tk_KX));
 const karun_kx_bundle = L.layerGroup([dk_kx, tk_kx]);
 karun_kx_bundle.addTo(map)
       
 // 옹정기 카룬_번들      
-const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(YZ));
-const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(YZ));
+const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(dk_YZ));
+const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(tk_YZ));
 const karun_yz_bundle = L.layerGroup([dk_yz, tk_yz]);
 
 // 건륭기 카룬_번들
-const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(QL));
-const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkTriPt(QL));
+const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(dk_QL));
+const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkTriPt(tk_QL));
 const karun_ql_bundle = L.layerGroup([dk_ql, tk_ql]);
       
 // 가경기 카룬_번들
-const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(JQ));
-const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(JQ));
+const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(dk_JQ));
+const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(tk_JQ));
 const karun_jq_bundle = L.layerGroup([dk_jq, tk_jq]);
       
 const admin_v1 = await loadGeoJSON('./data/admin_lv1_line.geojson', {

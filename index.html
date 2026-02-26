@@ -180,6 +180,34 @@ const infoTitleEl = document.getElementById('infoTitle');
 const infoBodyEl  = document.getElementById('infoBody');
 const infoCloseEl = document.getElementById('infoClose');
 
+//카룬의 필터
+function zoneType(zoneStr){
+  const z = String(zoneStr || '').toLowerCase();
+  if (z.includes('변대') || z.includes(' tai')) return 'tai';
+  if (z.includes('변내') || z.includes('dorgi')) return 'dorgi';
+  if (z.includes('변외') || z.includes('tulergi')) return 'tulergi';
+  return 'unknown';
+}
+    
+function makeKarunLayer(gj, { time, ztype, color }) {
+  return L.geoJSON(gj, {
+    filter: (f) => {
+      const p = f.properties || {};
+      return p.time === time && zoneType(p.zone) === ztype;
+    },
+    pointToLayer: mkTriPt(color).pointToLayer,
+    onEachFeature: (feature, layer) => {
+      const p = feature.properties || {};
+      const labelText = p.name || p.NAME_FT || p.name_chf || '정보';
+      // 라벨 필요하면:
+      // layer.bindTooltip(labelText, {permanent:true, direction:'top', offset:[0,-6], className:'plain-label'});
+      if (typeof openInfoPanel === 'function') {
+        layer.on('click', () => openInfoPanel(labelText, p));
+      }
+    }
+  });
+}
+
 function escapeHtml(s){
   return String(s ?? '').replace(/[&<>"']/g, (m)=>({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
@@ -254,6 +282,15 @@ async function loadGeoJSON(url, options = {}) {
   });
 }
     (async () => {
+
+      //카룬
+async function fetchGeoJSON(url){
+     const res = await fetch(url);
+     if (!res.ok) throw new Error(`Failed to fetch ${url} (HTTP ${res.status})`);
+     return await res.json();
+     }
+    const karunAll = await fetchGeoJSON('./data/karun_all.geojson');
+      
       // 국경선 백색 라인
       const bordersWhite = await loadGeoJSON('./data/borders.geojson', {
           style: { color: '#ffffff', weight: 1.8, opacity: 0.5 }
@@ -328,27 +365,27 @@ const tk_QL = '#E377C2'; // 마젠타/핑크(그린 보색 계열)
 const dk_JQ = '#D62728'; // 레드
 const tk_JQ = '#17BECF'; // 시안/청록(레드 보색 계열)
 
-// 강희기 카룬_번들
-const dk_kx = await loadGeoJSON('./data/dorgi_karun_kangxi.geojson', mkTriPt(dk_KX));
-const tk_kx = await loadGeoJSON('./data/tulergi_karun_kangxi.geojson', mkTriPt(tk_KX));
-const karun_kx_bundle = L.layerGroup([dk_kx, tk_kx]);
-karun_kx_bundle.addTo(map)
-      
-// 옹정기 카룬_번들      
-const dk_yz = await loadGeoJSON('./data/dorgi_karun_yongzheng.geojson', mkTriPt(dk_YZ));
-const tk_yz = await loadGeoJSON('./data/tulergi_karun_yongzheng.geojson', mkTriPt(tk_YZ));
-const karun_yz_bundle = L.layerGroup([dk_yz, tk_yz]);
+// 강희: 변대(tai) + 변외(tulergi)
+const kx_tai     = makeKarunLayer(karunAll, { time: '강희', ztype: 'tai',     color: dk_KX });
+const kx_tulergi = makeKarunLayer(karunAll, { time: '강희', ztype: 'tulergi', color: tk_KX });
+const karun_kx_bundle = L.layerGroup([kx_tai, kx_tulergi]);
 
-// 건륭기 카룬_번들
-const dk_ql = await loadGeoJSON('./data/dorgi_karun_qianlong.geojson', mkTriPt(dk_QL));
-const tk_ql = await loadGeoJSON('./data/tulergi_karun_qianlong.geojson', mkTriPt(tk_QL));
-const karun_ql_bundle = L.layerGroup([dk_ql, tk_ql]);
-      
-// 가경기 카룬_번들
-const dk_jq = await loadGeoJSON('./data/dorgi_karun_jiaqing.geojson', mkTriPt(dk_JQ));
-const tk_jq = await loadGeoJSON('./data/tulergi_karun_jiaqing.geojson', mkTriPt(tk_JQ));
-const karun_jq_bundle = L.layerGroup([dk_jq, tk_jq]);
-      
+// 옹정: 변내(dorgi) + 변외(tulergi)
+const yz_dorgi   = makeKarunLayer(karunAll, { time: '옹정', ztype: 'dorgi',   color: dk_YZ });
+const yz_tulergi = makeKarunLayer(karunAll, { time: '옹정', ztype: 'tulergi', color: tk_YZ });
+const karun_yz_bundle = L.layerGroup([yz_dorgi, yz_tulergi]);
+
+// 건륭
+const ql_dorgi   = makeKarunLayer(karunAll, { time: '건륭', ztype: 'dorgi',   color: dk_QL });
+const ql_tulergi = makeKarunLayer(karunAll, { time: '건륭', ztype: 'tulergi', color: tk_QL });
+const karun_ql_bundle = L.layerGroup([ql_dorgi, ql_tulergi]);
+
+// 가경
+const jq_dorgi   = makeKarunLayer(karunAll, { time: '가경', ztype: 'dorgi',   color: dk_JQ });
+const jq_tulergi = makeKarunLayer(karunAll, { time: '가경', ztype: 'tulergi', color: tk_JQ });
+const karun_jq_bundle = L.layerGroup([jq_dorgi, jq_tulergi]);
+
+// 성경장군 경계선
 const admin_v1 = await loadGeoJSON('./data/admin_lv1_line.geojson', {
         style: { color: '#000000', weight: 4, opacity: 0.8 }
       });

@@ -355,13 +355,6 @@ function makeKarunLayer(gj, { time, ztype, color }) {
     }
   });
 }
-
-      if (typeof openInfoPanel === 'function') {
-        layer.on('click', () => openInfoPanel(labelText, p));
-      }
-    }
-  });
-}
       
   const mkIconPt = (icon, { label = false } = {}) => ({
     label,
@@ -385,7 +378,8 @@ const tk_JQ = '#00E5FF'; // 밝은 시안
 const kx_tai     = makeKarunLayer(karunAll, { time: '강희', ztype: 'tai',     color: dk_KX });
 const kx_tulergi = makeKarunLayer(karunAll, { time: '강희', ztype: 'tulergi', color: tk_KX });
 const karun_kx_bundle = L.layerGroup([kx_tai, kx_tulergi]);
-
+karun_kx_bundle.addTo(map)
+      
 // 옹정: 변내(dorgi) + 변외(tulergi)
 const yz_dorgi   = makeKarunLayer(karunAll, { time: '옹정', ztype: 'dorgi',   color: dk_YZ });
 const yz_tulergi = makeKarunLayer(karunAll, { time: '옹정', ztype: 'tulergi', color: tk_YZ });

@@ -180,34 +180,6 @@ const infoTitleEl = document.getElementById('infoTitle');
 const infoBodyEl  = document.getElementById('infoBody');
 const infoCloseEl = document.getElementById('infoClose');
 
-//카룬의 필터
-function zoneType(zoneStr){
-  const z = String(zoneStr || '').toLowerCase();
-  if (z.includes('변대') || z.includes(' tai')) return 'tai';
-  if (z.includes('변내') || z.includes('dorgi')) return 'dorgi';
-  if (z.includes('변외') || z.includes('tulergi')) return 'tulergi';
-  return 'unknown';
-}
-    
-function makeKarunLayer(gj, { time, ztype, color }) {
-  return L.geoJSON(gj, {
-    filter: (f) => {
-      const p = f.properties || {};
-      return p.time === time && zoneType(p.zone) === ztype;
-    },
-    pointToLayer: mkTriPt(color).pointToLayer,
-    onEachFeature: (feature, layer) => {
-      const p = feature.properties || {};
-      const labelText = p.name || p.NAME_FT || p.name_chf || '정보';
-      // 라벨 필요하면:
-      // layer.bindTooltip(labelText, {permanent:true, direction:'top', offset:[0,-6], className:'plain-label'});
-      if (typeof openInfoPanel === 'function') {
-        layer.on('click', () => openInfoPanel(labelText, p));
-      }
-    }
-  });
-}
-
 function escapeHtml(s){
   return String(s ?? '').replace(/[&<>"']/g, (m)=>({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
@@ -335,7 +307,16 @@ const icon_giyamun = L.icon({
   iconAnchor: [9, 9],
   popupAnchor: [0, -9]
 });   
-      
+
+//카룬의 필터
+function zoneType(zoneStr){
+  const z = String(zoneStr || '').toLowerCase();
+  if (z.includes('변대') || z.includes(' tai')) return 'tai';
+  if (z.includes('변내') || z.includes('dorgi')) return 'dorgi';
+  if (z.includes('변외') || z.includes('tulergi')) return 'tulergi';
+  return 'unknown';
+}
+
 // Triangle icon factory (no PNG)
 const mkTriIcon = (color, size = 10) => L.divIcon({
   className: '', // Leaflet
@@ -350,6 +331,24 @@ const mkTriPt = (color, { size = 10, label = false } = {}) => ({
   label,
   pointToLayer: (f, latlng) => L.marker(latlng, { icon: mkTriIcon(color, size) })
 });
+function makeKarunLayer(gj, { time, ztype, color }) {
+  return L.geoJSON(gj, {
+    filter: (f) => {
+      const p = f.properties || {};
+      return p.time === time && zoneType(p.zone) === ztype;
+    },
+    pointToLayer: mkTriPt(color).pointToLayer,
+    onEachFeature: (feature, layer) => {
+      const p = feature.properties || {};
+      const labelText = p.name || p.NAME_FT || p.name_chf || '정보';
+      // 라벨 필요하면:
+      // layer.bindTooltip(labelText, {permanent:true, direction:'top', offset:[0,-6], className:'plain-label'});
+      if (typeof openInfoPanel === 'function') {
+        layer.on('click', () => openInfoPanel(labelText, p));
+      }
+    }
+  });
+}
       const mkIconPt = (icon, { label = false } = {}) => ({
   label,
   pointToLayer: (f, latlng) => L.marker(latlng, { icon })

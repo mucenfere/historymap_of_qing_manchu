@@ -219,10 +219,15 @@ function closeInfoPanel(){
       { maxZoom: 19, attribution: '&copy; Esri', opacity: 0.5 }
     );
 
-    const satelliteWithLabels = L.layerGroup([satellite, labels]).addTo(map);
+    const satelliteOnly = satellite;                    // 위성
+    const labelsOnly = labels;                          // 라벨 (단독 토글)
+    const satelliteWithLabels = L.layerGroup([satellite, labels]);
+
+     satelliteOnly.addTo(map); // 기본은 라벨 없이
 
     const baseLayers = {
-      "위성": satelliteWithLabels,
+      "위성(라벨없음)": satelliteOnly,
+      "위성(라벨있음)": satelliteWithLabels,
       "OSM": osm
     };
 

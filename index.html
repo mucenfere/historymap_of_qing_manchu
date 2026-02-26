@@ -42,8 +42,8 @@
     
     /* 삼각형 라벨 */
     .tri {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
   background: var(--tri, #d62728);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border: 1px solid rgba(0,0,0,0.75);
@@ -254,7 +254,7 @@ async function loadGeoJSON(url, options = {}) {
   });
 }
     (async () => {
-      // 국경선(라인) GeoJSON: 바깥 검정 + 안쪽 흰색 (가독성 좋음)
+      // 국경선 백색 라인
       const bordersWhite = await loadGeoJSON('./data/borders.geojson', {
           style: { color: '#ffffff', weight: 1.8, opacity: 0.5 }
        });
@@ -300,7 +300,7 @@ const icon_giyamun = L.icon({
 });   
       
 // Triangle icon factory (no PNG)
-const mkTriIcon = (color, size = 14) => L.divIcon({
+const mkTriIcon = (color, size = 10) => L.divIcon({
   className: '', // Leaflet
   html: `<div class="tri" style="--tri:${color}; width:${size}px; height:${size}px;"></div>`,
   iconSize: [size, size],
@@ -309,7 +309,7 @@ const mkTriIcon = (color, size = 14) => L.divIcon({
 });
 
 // GeoJSON point options using triangle marker
-const mkTriPt = (color, { size = 14, label = false } = {}) => ({
+const mkTriPt = (color, { size = 10, label = false } = {}) => ({
   label,
   pointToLayer: (f, latlng) => L.marker(latlng, { icon: mkTriIcon(color, size) })
 });

@@ -424,7 +424,7 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
   }
 });
       const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
-      mkIconPt(icon_giyamun, { label: false })
+      mkIconPt(icon_giyamun, { label: true })
       );
       
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });

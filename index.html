@@ -314,6 +314,7 @@ function zoneType(zoneStr){
   if (z.includes('변대') || z.includes(' tai')) return 'tai';
   if (z.includes('변내') || z.includes('dorgi')) return 'dorgi';
   if (z.includes('변외') || z.includes('tulergi')) return 'tulergi';
+  if (z.includes('위장') || z.includes('aba')) return 'aba';
   return 'unknown';
 }
 
@@ -381,32 +382,32 @@ const tk_DG = '#00E5FF'; // 밝은 시안
 
       
 // 강희: 변대(tai) + 변외(tulergi)
-const kx_tai     = makeKarunLayer(karunAll, { time: '강희', ztype: 'tai',     color: dk_KX });
-const kx_tulergi = makeKarunLayer(karunAll, { time: '강희', ztype: 'tulergi', color: tk_KX });
+const kx_tai     = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tai',     color: dk_KX });
+const kx_tulergi = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tulergi', color: tk_KX });
 const karun_kx_bundle = L.layerGroup([kx_tai, kx_tulergi]);
 karun_kx_bundle.addTo(map)
       
 // 옹정: 변내(dorgi) + 변외(tulergi)
-const yz_dorgi   = makeKarunLayer(karunAll, { time: '옹정', ztype: 'dorgi',   color: dk_YZ });
-const yz_tulergi = makeKarunLayer(karunAll, { time: '옹정', ztype: 'tulergi', color: tk_YZ });
+const yz_dorgi   = makeKarunLayer(karunAll, { time: '옹정초기', ztype: 'dorgi',   color: dk_YZ });
+const yz_tulergi = makeKarunLayer(karunAll, { time: '옹정초기', ztype: 'tulergi', color: tk_YZ });
 const karun_yz_bundle = L.layerGroup([yz_dorgi, yz_tulergi]);
 
 // 건륭
-const ql_dorgi   = makeKarunLayer(karunAll, { time: '건륭', ztype: 'dorgi',   color: dk_QL });
-const ql_tulergi = makeKarunLayer(karunAll, { time: '건륭', ztype: 'tulergi', color: tk_QL });
+const ql_dorgi   = makeKarunLayer(karunAll, { time: '건륭중기', ztype: 'dorgi',   color: dk_QL });
+const ql_tulergi = makeKarunLayer(karunAll, { time: '건륭중기', ztype: 'tulergi', color: tk_QL });
 const karun_ql_bundle = L.layerGroup([ql_dorgi, ql_tulergi]);
 
 // 가경
-const jq_dorgi   = makeKarunLayer(karunAll, { time: '가경', ztype: 'dorgi',   color: dk_JQ });
-const jq_tulergi = makeKarunLayer(karunAll, { time: '가경', ztype: 'tulergi', color: tk_JQ });
+const jq_dorgi   = makeKarunLayer(karunAll, { time: '가경9년', ztype: 'dorgi',   color: dk_JQ });
+const jq_tulergi = makeKarunLayer(karunAll, { time: '가경9년', ztype: 'tulergi', color: tk_JQ });
 const karun_jq_bundle = L.layerGroup([jq_dorgi, jq_tulergi]);
 
 // 가경위장
-const jq_weichang   = makeKarunLayer(karunAll, { time: '가경', ztype: 'aba hoihan',   color: JQWC });
+const jq_weichang   = makeKarunLayer(karunAll, { time: '가경23년', ztype: 'aba',   color: JQWC });
 
 // 도광
-const dg_dorgi   = makeKarunLayer(karunAll, { time: '도광', ztype: 'dorgi',   color: dk_DG });
-const dg_tulergi = makeKarunLayer(karunAll, { time: '도광', ztype: 'tulergi', color: tk_DG });
+const dg_dorgi   = makeKarunLayer(karunAll, { time: '도광27년', ztype: 'dorgi',   color: dk_DG });
+const dg_tulergi = makeKarunLayer(karunAll, { time: '도광27년', ztype: 'tulergi', color: tk_DG });
 const karun_dg_bundle = L.layerGroup([dg_dorgi, dg_tulergi]);
       
 // 성경장군 경계선

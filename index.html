@@ -363,24 +363,24 @@ function makeKarunLayer(gj, { time, ztype, color }) {
   });
       
 // 카룬 아이콘 색깔
-const dk_KX = '#00A2FF'; // 밝은 하늘색/시안블루
-const tk_KX = '#FFD400'; // 밝은 노랑(블루와 대비)
+const dk_KX = '#00A2FF'; // 밝은 스카이블루
+const tk_KX = '#FFD400'; // 밝은 옐로(블루 보색)
 
-const dk_YZ = '#B000FF'; // 선명한 보라
-const tk_YZ = '#7CFF00'; // 라임 그린(보라와 대비)
+const dk_YZ = '#B000FF'; // 선명 퍼플
+const tk_YZ = '#7CFF00'; // 라임 그린(퍼플 보색)
+
+const dk_QL = '#00E676'; // 밝은 그린(민트 계열)
+const tk_QL = '#FF4DFF'; // 밝은 마젠타(그린 보색)
+
+const dk_JQ = '#FF8C00'; // 밝은 오렌지(빨강 아님)
+const tk_JQ = '#00E5FF'; // 밝은 시안(오렌지 대비)
       
-const dk_QL = '#00E676'; // 밝은 그린(민트그린 쪽)
-const tk_QL = '#FF4DFF'; // 밝은 마젠타(그린과 대비)
-      
-const dk_JQ = '#FF8C00'; // 선명한 오렌지(빨강 아님)
-const tk_JQ = '#00E5FF'; // 밝은 시안
+const JQWC  = '#005CFF'; // 코발트 블루(시안/오렌지와 구분, 위성에서 강함)
 
-const JQWC = '#FF8C00'; // 선명한 오렌지(빨강 아님)
+const dk_DG = '#6A00FF'; // 진한 바이올렛(퍼플 계열이지만 YZ보다 더 푸른 톤)
+const tk_DG = '#FFF000'; // 네온 옐로(바이올렛 보색, 빨강 아님)
 
-const dk_DG = '#FF8C00'; // 선명한 오렌지(빨강 아님)
-const tk_DG = '#00E5FF'; // 밝은 시안
 
-      
 // 강희: 변대(tai) + 변외(tulergi)
 const kx_tai     = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tai',     color: dk_KX });
 const kx_tulergi = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tulergi', color: tk_KX });
@@ -426,6 +426,7 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
       mkIconPt(icon_giyamun, { label: false })
       );
+      
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wp_gate_kx_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',
       mkIconPt(icon_wp_gate, { label: false })
@@ -433,32 +434,21 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       const wpkangxi_bundle = L.layerGroup([wpkangxi, wp_gate_kx_pts]);
       wpkangxi_bundle.addTo(map)
       
-      const wpyongzheng = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
-      const wp_gate_yz_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',
-      mkIconPt(icon_wp_gate, { label: false })
-      );
-      const wpyongzheng_bundle = L.layerGroup([wpyongzheng, wp_gate_yz_pts]);
-      
       const wpqianlong = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
       const wp_gate_ql_pts = await loadGeoJSON('./data/willowpalisade_gate_ql.geojson',
       mkIconPt(icon_wp_gate, { label: false })
       );
       const wpqianlong_bundle = L.layerGroup([wpqianlong, wp_gate_ql_pts]);
       
-      const wpjiaqing = await loadGeoJSON('./data/willowpalisade-qianlong.geojson', { style: willowpalisade });
-      const wp_gate_jq_pts = await loadGeoJSON('./data/willowpalisade-gate-qianlong.geojson',
-      mkIconPt(icon_wp_gate, { label: false })
-      );
-      const wpjiaqing_bundle = L.layerGroup([wpjiaqing, wp_gate_jq_pts]);
-        
       const groupedOverlays = {
         "기본지리정보": { "성경장군 관할 경계선": admin_v1, "행정 지명(lv1/lv2)": admin_pts, "역참": giyamun_pt },
-        "강희기 카룬": { "유조변(강희-옹정)": wpkangxi_bundle, "邊臺/카룬(강희말기)": karun_kx_bundle },
-        "옹정기 카룬": { "유조변(강희-옹정)": wpyongzheng_bundle, "변내/변외카룬(옹정초기)": karun_yz_bundle },
-        "건륭기 카룬": { "유조변(건륭이후)": wpqianlong_bundle, "변내/변외카룬(건륭중기)": karun_ql_bundle },
-        "가경기 카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "변내/변외카룬(가경 9년)": karun_jq_bundle },
-        "가경기 위장카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "성경위장 카룬(가경 23년)": jq_weichang },
-        "도광기 카룬": { "유조변(건륭이후)": wpjiaqing_bundle, "변내/변와카룬(도광 27년)": karun_dg_bundle },
+        "유조변": { "유조변(강희-옹정)": wpkangxi_bundle, "유조변(건륭이후)": wpqianlong_bundle },
+        "강희기 카룬": { "邊臺/카룬(강희말기)": karun_kx_bundle },
+        "옹정기 카룬": { "변내/변외카룬(옹정초기)": karun_yz_bundle },
+        "건륭기 카룬": { "변내/변외카룬(건륭중기)": karun_ql_bundle },
+        "가경기 카룬": { "변내/변외카룬(가경 9년)": karun_jq_bundle },
+        "가경기 위장카룬": { "성경위장 카룬(가경 23년)": jq_weichang },
+        "도광기 카룬": { "변내/변외카룬(도광 27년)": karun_dg_bundle },
         "참고자료_CHGIS (1820)": { "省 경계선(1820_CHGIS)": chgisprov_pgn, "府 경계선(1820_CHGIS)": chgispref_pgn, "府 치소(1820_CHGIS)": chgispref_pts, "지명(1820_CHGIS)": chgistwn_pts}
       };
 

@@ -382,7 +382,8 @@ const tk_DG = '#00FFC8'; // 밝은 민트/아쿠아(바이올렛과 대비, 노�
 
 // 변대(tai)
 const kx_tai = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tai', color: dk_KX });
-
+kx_tai.addTo(map)
+      
 // 강희: 변대(tai) + 변외(tulergi)
 const kx_tulergi = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tulergi', color: tk_KX });
 kx_tulergi.addTo(map)
@@ -426,6 +427,7 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
       mkIconPt(icon_giyamun, { label: true })
       );
+      giyamun_pt.addTo(map)
       
       const wpkangxi = await loadGeoJSON('./data/willowpalisade-kangxi.geojson', { style: willowpalisade });
       const wp_gate_kx_pts = await loadGeoJSON('./data/willowpalisade_gate_kxyz.geojson',

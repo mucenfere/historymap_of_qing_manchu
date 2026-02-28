@@ -424,6 +424,8 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
     return marker;
   }
 });
+      admin_pts.addTo(map);
+ 
       const giyamun_pt = await loadGeoJSON('./data/manchu_giyamun_pt.geojson',
       mkIconPt(icon_giyamun, { label: true })
       );

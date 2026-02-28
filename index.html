@@ -380,12 +380,12 @@ const JQWC  = '#005CFF'; // 코발트 블루(시안/오렌지와 구분, 위성�
 const dk_DG = '#6A00FF'; // 진한 바이올렛(퍼플 계열이지만 YZ보다 더 푸른 톤)
 const tk_DG = '#FFF000'; // 네온 옐로(바이올렛 보색, 빨강 아님)
 
+// 변대(tai)
+const kx_tai = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tai', color: dk_KX });
 
 // 강희: 변대(tai) + 변외(tulergi)
-const kx_tai     = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tai',     color: dk_KX });
 const kx_tulergi = makeKarunLayer(karunAll, { time: '강희말기', ztype: 'tulergi', color: tk_KX });
-const karun_kx_bundle = L.layerGroup([kx_tai, kx_tulergi]);
-karun_kx_bundle.addTo(map)
+kx_tulergi.addTo(map)
       
 // 옹정: 변내(dorgi) + 변외(tulergi)
 const yz_dorgi   = makeKarunLayer(karunAll, { time: '옹정초기', ztype: 'dorgi',   color: dk_YZ });
@@ -443,7 +443,8 @@ const admin_pts = await loadGeoJSON('./data/manchu_admin_pt.geojson', {
       const groupedOverlays = {
         "기본지리정보": { "성경장군 관할 경계선": admin_v1, "행정 지명(lv1/lv2)": admin_pts, "역참": giyamun_pt },
         "유조변": { "유조변(강희-옹정)": wpkangxi_bundle, "유조변(건륭이후)": wpqianlong_bundle },
-        "강희기 카룬": { "邊臺/카룬(강희말기)": karun_kx_bundle },
+        "邊臺": { "邊臺(강희기 이후)": kx_kx_tai },
+        "강희기 카룬": { "변외카룬(강희말기)": kx_tulergi },
         "옹정기 카룬": { "변내/변외카룬(옹정초기)": karun_yz_bundle },
         "건륭기 카룬": { "변내/변외카룬(건륭중기)": karun_ql_bundle },
         "가경기 카룬": { "변내/변외카룬(가경 9년)": karun_jq_bundle },

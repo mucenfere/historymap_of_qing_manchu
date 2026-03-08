@@ -154,7 +154,28 @@
 .info-body table{ width:100%; border-collapse: collapse; }
 .info-body th{ text-align:left; padding:4px 8px 4px 0; white-space:nowrap; vertical-align: top; }
 .info-body td{ padding:4px 0; word-break: break-word; }
-     
+.marker-selected-png {
+  filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 16px #00ffff) drop-shadow(0 0 24px #ffffff) !important;
+  transform: scale(1.6);
+  transform-origin: center;
+}
+
+/* div 아이콘 선택 강조 (admin-dot, 삼각형) */
+.marker-selected-div > div {
+  transform: scale(1.6);
+  transform-origin: center;
+}
+.marker-selected-div .admin-dot {
+  background: #00ffff !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+.marker-selected-div .tri {
+  --tri: #00ffff !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+    
   </style>
 </head>
 
@@ -217,29 +238,51 @@ let selectedLayer = null;
 let selectedOriginalStyle = null;
 
 function highlightLayer(layer) {
+  // 이전 선택 해제
   if (selectedLayer) {
     if (selectedOriginalStyle) {
       selectedLayer.setStyle(selectedOriginalStyle);
+      selectedOriginalStyle = null;
+    }
+    if (selectedLayer.getElement) {
+      const el = selectedLayer.getElement();
+      if (el) {
+        el.classList.remove('marker-selected-png');
+        el.classList.remove('marker-selected-div');
+      }
     }
     selectedLayer = null;
-    selectedOriginalStyle = null;
   }
+
   if (!layer) return;
-  if (typeof layer.setStyle !== 'function') return;
-  selectedOriginalStyle = {
-    color: layer.options.color,
-    weight: layer.options.weight,
-    opacity: layer.options.opacity,
-    fillOpacity: layer.options.fillOpacity,
-  };
   selectedLayer = layer;
-layer.setStyle({
-  color: '#00ffff', 
-  weight: 5,
-  opacity: 1,
-  fillOpacity: 0.5,
-});
-  layer.bringToFront();
+
+  // 폴리곤/폴리라인
+  if (typeof layer.setStyle === 'function' && !layer.getElement) {
+    selectedOriginalStyle = {
+      color: layer.options.color,
+      weight: layer.options.weight,
+      opacity: layer.options.opacity,
+      fillOpacity: layer.options.fillOpacity,
+    };
+    layer.setStyle({
+      color: '#00ffff',
+      weight: 5,
+      opacity: 1,
+      fillOpacity: 0.5,
+    });
+    layer.bringToFront();
+  }
+
+  // 포인트 마커
+  if (layer.getElement) {
+    const el = layer.getElement();
+    if (!el) return;
+    // PNG 아이콘 여부 판단: options.icon이 L.Icon이면 PNG
+    const icon = layer.options?.icon;
+    const isPng = icon && icon instanceof L.Icon;
+    el.classList.add(isPng ? 'marker-selected-png' : 'marker-selected-div');
+  }
 }
 
 function openInfoPanel(title, props){

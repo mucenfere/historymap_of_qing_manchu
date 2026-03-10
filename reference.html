@@ -25,7 +25,7 @@
     body { padding-top: 44px; }
     main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 60px; }
     h1 { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
-    .subtitle { color: #666; font-size: 17px; margin-bottom: 24px; }
+    .subtitle { color: #666; font-size: 13px; margin-bottom: 24px; }
 
     /* ── Table wrap ── */
     .table-wrap { overflow-x: auto; }
@@ -33,23 +33,26 @@
     table {
       width: 100%; border-collapse: collapse;
       background: #fff; border: 1px solid #e0e0e0;
-      border-radius: 8px; overflow: hidden; font-size: 17px;
+      border-radius: 8px; overflow: hidden; font-size: 13px;
     }
 
     /* Column widths */
     col.col-no     { width: 48px; }
-    col.col-thumb  { width: 360px; }
+    col.col-thumb  { width: 392px; }
     col.col-title  { width: 200px; }
     col.col-date   { width: 120px; }
-    col.col-lang   { width: 48px; }
+    col.col-lang   { width: 60px; }
     col.col-source { width: 180px; }
     col.col-repo   { width: 240px; }
 
     thead th {
       background: #f0f0ee; text-align: left;
-      padding: 10px 12px; font-weight: 700; font-size: 17px;
-      border-bottom: 1px solid #ddd; white-space: nowrap;
+      padding: 10px 12px; font-weight: 700; font-size: 13px;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      white-space: nowrap;
     }
+    thead th:last-child { border-right: none; }
 
     tbody tr { border-bottom: 1px solid #f0f0ee; }
     tbody tr:last-child { border-bottom: none; }
@@ -60,7 +63,9 @@
     td {
       padding: 9px 12px;
       vertical-align: middle;
+      border-right: 1px solid #e0e0e0;
     }
+    td:last-child { border-right: none; }
 
     /* No. column */
     td.col-no {
@@ -118,13 +123,11 @@
     td.col-title a { color: #555; text-decoration: none; }
     td.col-title a:hover { text-decoration: underline; }
 
-    /* Date / lang / Source */
+    /* Date / lang / Source / Repo */
     td.col-date   { color: #555; white-space: nowrap; }
-    td.col-lang   { color: #555; white-space: nowrap; }
+    td.col-lang   { color: #555; white-space: nowrap; text-align: center; }
     td.col-source { color: #555; word-break: break-word; }
-
-    /* Repository */
-    td.col-repo { color: #555; word-break: break-word; }
+    td.col-repo   { color: #555; word-break: break-word; }
 
     /* Note */
     .table-note {
@@ -177,6 +180,7 @@
           <tr>
             <td class="col-no">1</td>
             <td class="col-thumb">
+              <a href="https://rarebooks-maps.npm.edu.tw/index.php?act=Display/drawing/C/P3K021549/P001#b3C" target="_blank" rel="noopener">
                 <img src="./images/thumb_map1.png" alt="지도 1 썸네일"
                      onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
               </a>
@@ -196,12 +200,13 @@
           <tr>
             <td class="col-no">2</td>
             <td class="col-thumb">
+              <a href="https://example.com/map2" target="_blank" rel="noopener">
                 <img src="./images/thumb_map2.png" alt="지도 2 썸네일"
                      onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
               </a>
             </td>
             <td class="col-title">
-              <a href="https://example.com/map1" target="_blank" rel="noopener">
+              <a href="https://example.com/map2" target="_blank" rel="noopener">
                 盛京輿地全圖
               </a>
             </td>
@@ -215,12 +220,13 @@
           <tr>
             <td class="col-no">3</td>
             <td class="col-thumb">
+              <a href="https://example.com/map3" target="_blank" rel="noopener">
                 <img src="./images/thumb_map3.png" alt="지도 3 썸네일"
                      onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
               </a>
             </td>
             <td class="col-title">
-              <a href="https://example.com/map1" target="_blank" rel="noopener">
+              <a href="https://example.com/map3" target="_blank" rel="noopener">
                 盛京輿地全圖
               </a>
             </td>
@@ -234,17 +240,18 @@
           <tr>
             <td class="col-no">4</td>
             <td class="col-thumb">
+              <a href="https://example.com/map4" target="_blank" rel="noopener">
                 <img src="./images/thumb_map4.png" alt="지도 4 썸네일"
                      onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
               </a>
             </td>
             <td class="col-title">
-              <a href="https://example.com/map1" target="_blank" rel="noopener">
+              <a href="https://example.com/map4" target="_blank" rel="noopener">
                 盛京輿地全圖
               </a>
             </td>
             <td class="col-date">1700년대 초</td>
-            <td class="col-lang">한/만</td>
+            <td class="col-lang">漢/滿/td>
             <td class="col-source">수록자료명 / 권호를 입력하세요</td>
             <td class="col-repo">규장각</td>
           </tr>
@@ -253,12 +260,13 @@
       </table>
     </div><!-- /.table-wrap -->
 
+    <p class="table-note">* 온라인 공개 자료가 아닌 경우 링크가 제공되지 않을 수 있습니다.</p>
   </main>
 
   <script>
     const rows = document.querySelectorAll('#ref-table tbody tr');
     document.getElementById('ref-count').textContent = rows.length + ' entries';
-    </script>
+  </script>
 
 </body>
 </html>

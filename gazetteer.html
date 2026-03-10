@@ -87,6 +87,7 @@
     col.col-hanja   { width: 120px; }
     col.col-manchu  { width: 160px; }
     col.col-time    { width: 110px; }
+    col.col-type    { width: 110px; }
     col.col-desc    { width: auto;  }
     col.col-actions { width: 90px;  }
 
@@ -97,6 +98,7 @@
     td.hanja  { font-size: 14px; font-weight: 600; white-space: nowrap; }
     td.manchu { font-family: monospace; color: #444; white-space: nowrap; }
     td.time   { color: #555; white-space: nowrap; }
+    td.type   { color: #555; white-space: nowrap; }
     td.desc   { color: #555; word-break: break-word; min-width: 200px; }
     td.actions { white-space: nowrap; }
 
@@ -186,7 +188,7 @@
 
   <main>
     <h1>Gazetteer <span style="font-weight:400;color:#888">地名目錄</span></h1>
-    <p class="subtitle">성경 관할 카룬 지명의 목록 및 위치 비정의 근거 자료 </p>
+    <p class="subtitle">성경 지역 카룬 지명 목록과 위치 비정의 근거 자료.</p>
 
     <!-- Auth -->
     <div class="auth-bar">
@@ -198,7 +200,7 @@
 
     <!-- Toolbar -->
     <div class="toolbar">
-      <input type="search" id="searchInput" placeholder="검색…" />
+      <input type="search" id="searchInput" placeholder="한자·만주어·설명 검색…" />
       <button class="btn-add" id="addBtn" disabled>+ 항목 추가</button>
     </div>
 
@@ -209,6 +211,7 @@
           <col class="col-hanja">
           <col class="col-manchu">
           <col class="col-time">
+          <col class="col-type">
           <col class="col-desc">
           <col class="col-actions">
         </colgroup>
@@ -217,12 +220,13 @@
             <th class="sortable" data-col="hanja">지명_한자<span class="sort-arrow"> ⇅</span></th>
             <th class="sortable" data-col="manchu">지명_만주어<span class="sort-arrow"> ⇅</span></th>
             <th class="sortable" data-col="time">시간 레이어<span class="sort-arrow"> ⇅</span></th>
+            <th class="sortable" data-col="type">유형<span class="sort-arrow"> ⇅</span></th>
             <th>설명</th>
             <th id="actionsHeader" style="display:none">작업</th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr class="empty-row"><td colspan="4">불러오는 중…</td></tr>
+          <tr class="empty-row"><td colspan="6">불러오는 중…</td></tr>
         </tbody>
       </table>
     </div>
@@ -238,6 +242,8 @@
       <input type="text" id="fManchu" placeholder="예: Fiyanggu hoton" />
       <label>시간 레이어</label>
       <input type="text" id="fTime" placeholder="예: 강희말기, 건륭중기 등" />
+      <label>유형</label>
+      <input type="text" id="fType" placeholder="예: 변내카룬, 변외카룬, 邊臺 등" />
       <label>설명</label>
       <textarea id="fDesc" placeholder="위치 비정 근거, 사료 출처, 관련 카룬 등"></textarea>
       <div class="modal-actions">
@@ -279,6 +285,7 @@
     const fHanja        = document.getElementById('fHanja');
     const fManchu       = document.getElementById('fManchu');
     const fTime         = document.getElementById('fTime');
+    const fType         = document.getElementById('fType');
     const fDesc         = document.getElementById('fDesc');
     const toastEl       = document.getElementById('toast');
 
@@ -344,6 +351,7 @@
             (e.hanja  || '').toLowerCase().includes(q) ||
             (e.manchu || '').toLowerCase().includes(q) ||
             (e.time   || '').toLowerCase().includes(q) ||
+            (e.type   || '').toLowerCase().includes(q) ||
             (e.desc   || '').toLowerCase().includes(q))
         : [...entries];
 
@@ -377,7 +385,7 @@
 
       if (list.length === 0) {
         const msg = filter.trim() ? '검색 결과 없음' : '항목이 없습니다. 항목을 추가해보세요.';
-        tableBody.innerHTML = `<tr class="empty-row"><td colspan="5">${msg}</td></tr>`;
+        tableBody.innerHTML = `<tr class="empty-row"><td colspan="6">${msg}</td></tr>`;
         return;
       }
 
@@ -386,6 +394,7 @@
           <td class="hanja">${esc(e.hanja)}</td>
           <td class="manchu">${esc(e.manchu)}</td>
           <td class="time">${esc(e.time)}</td>
+          <td class="type">${esc(e.type)}</td>
           <td class="desc">${esc(e.desc)}</td>
           <td class="actions"${authed ? '' : ' style="display:none"'}>
             <button class="btn-edit" data-id="${e.id}">수정</button>
@@ -465,10 +474,11 @@
         fHanja.value  = entry.hanja  || '';
         fManchu.value = entry.manchu || '';
         fTime.value   = entry.time   || '';
+        fType.value   = entry.type   || '';
         fDesc.value   = entry.desc   || '';
       } else {
         modalTitle.textContent = '항목 추가';
-        fHanja.value = fManchu.value = fTime.value = fDesc.value = '';
+        fHanja.value = fManchu.value = fTime.value = fType.value = fDesc.value = '';
       }
       modalBackdrop.classList.add('open');
       fHanja.focus();
@@ -489,7 +499,7 @@
         let newEntries;
         if (editingId) {
           newEntries = entries.map(e => e.id === editingId
-            ? { ...e, hanja, manchu: fManchu.value.trim(), time: fTime.value.trim(), desc: fDesc.value.trim() }
+            ? { ...e, hanja, manchu: fManchu.value.trim(), time: fTime.value.trim(), type: fType.value.trim(), desc: fDesc.value.trim() }
             : e);
           await saveFile(newEntries, `gazetteer: update "${hanja}"`);
           entries = newEntries;
@@ -497,7 +507,7 @@
         } else {
           const newEntry = {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-            hanja, manchu: fManchu.value.trim(), time: fTime.value.trim(), desc: fDesc.value.trim()
+            hanja, manchu: fManchu.value.trim(), time: fTime.value.trim(), type: fType.value.trim(), desc: fDesc.value.trim()
           };
           newEntries = [...entries, newEntry];
           await saveFile(newEntries, `gazetteer: add "${hanja}"`);

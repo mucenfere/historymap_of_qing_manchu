@@ -4,248 +4,141 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Reference(參考文獻)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --ink:        #1a1612;
-      --ink-light:  #4a4440;
-      --rule:       #b8a898;
-      --rule-light: #ddd4c8;
-      --parchment:  #f7f3ed;
-      --cream:      #fdfaf6;
-      --accent:     #7a3b1e;
-      --thumb-w:    360px;
-      --thumb-h:    240px;
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f8f8f6; color: #111;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: 'Noto Serif KR', Georgia, serif;
-      padding-top: 44px;
-      min-height: 100vh;
-    }
-
-    /* ── NAV ── */
+    /* ── Top nav ── */
     .topnav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 44px;
-      display: flex;
-      gap: 48px;
-      align-items: center;
-      padding: 0 80px;
-      background: rgba(253,250,246,0.97);
-      z-index: 1000;
-      border-bottom: 1px solid var(--rule);
-      font-family: 'IM Fell English', serif;
-      font-size: 13px;
-      letter-spacing: 0.04em;
+      position: fixed; top: 0; left: 0; right: 0; height: 44px;
+      display: flex; gap: 48px; align-items: center; padding: 0 80px;
+      background: rgba(255,255,255,0.95); z-index: 1000;
+      border-bottom: 1px solid #ddd;
     }
-    .topnav a { color: var(--ink-light); text-decoration: none; transition: color .2s; }
-    .topnav a:hover { color: var(--accent); text-decoration: underline; }
+    .topnav a { text-decoration: none; color: #111; font-weight: 600; font-size: 14px; }
+    .topnav a:hover { text-decoration: underline; }
 
-    /* ── MAIN ── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 52px 48px 80px;
-    }
+    body { padding-top: 44px; }
+    main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 60px; }
+    h1 { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
+    .subtitle { color: #666; font-size: 13px; margin-bottom: 24px; }
 
-    /* ── PAGE HEADER ── */
-    .page-header {
-      border-bottom: 2px solid var(--ink);
-      padding-bottom: 20px;
-      margin-bottom: 48px;
-    }
-    .page-header h1 {
-      font-family: 'IM Fell English', serif;
-      font-size: 2.4rem;
-      font-weight: 400;
-      color: var(--ink);
-    }
-    .page-header .subtitle {
-      margin-top: 8px;
-      font-size: 0.82rem;
-      color: var(--ink-light);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .count-badge {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 3px 10px;
-      border: 1px solid var(--rule);
-      font-size: 0.75rem;
-      color: var(--ink-light);
-      letter-spacing: 0.08em;
-    }
+    /* ── Table wrap ── */
+    .table-wrap { overflow-x: auto; }
 
-    /* ── TABLE ── */
-    .ref-table-wrap {
-      border: 1px solid var(--rule);
+    table {
+      width: 100%; border-collapse: collapse;
+      background: #fff; border: 1px solid #e0e0e0;
+      border-radius: 8px; overflow: hidden; font-size: 13px;
     }
-
-    table.ref-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.87rem;
-      line-height: 1.65;
-    }
-
-    /* Column headers */
-    table.ref-table thead th {
-      background: var(--ink);
-      color: var(--cream);
-      padding: 11px 18px;
-      font-family: 'IM Fell English', serif;
-      font-weight: 400;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-align: left;
-      border-right: 1px solid rgba(255,255,255,0.12);
-      white-space: nowrap;
-    }
-    table.ref-table thead th:last-child { border-right: none; }
 
     /* Column widths */
-    col.col-no     { width: 52px; }
-    col.col-thumb  { width: calc(var(--thumb-w) + 32px); }
+    col.col-no     { width: 48px; }
+    col.col-thumb  { width: 392px; }
     col.col-title  { width: 200px; }
     col.col-date   { width: 120px; }
     col.col-source { }
     col.col-repo   { width: 155px; }
 
-    /* Body rows */
-    table.ref-table tbody tr {
-      border-bottom: 1px solid var(--rule);
-      transition: background .15s;
+    thead th {
+      background: #f0f0ee; text-align: left;
+      padding: 10px 12px; font-weight: 700; font-size: 13px;
+      border-bottom: 1px solid #ddd; white-space: nowrap;
     }
-    table.ref-table tbody tr:last-child { border-bottom: none; }
-    table.ref-table tbody tr:hover { background: #faf5ef; }
 
-    table.ref-table tbody td {
-      padding: 16px 18px;
+    tbody tr { border-bottom: 1px solid #f0f0ee; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #f5f5f3; }
+    tbody tr:nth-child(odd)  { background: #ffffff; }
+    tbody tr:hover { background: #e8f0fe; }
+
+    td {
+      padding: 9px 12px;
       vertical-align: middle;
-      border-right: 1px solid var(--rule-light);
-      color: var(--ink);
     }
-    table.ref-table tbody td:last-child { border-right: none; }
 
     /* No. column */
     td.col-no {
-      text-align: center;
-      font-family: 'IM Fell English', serif;
-      font-size: 1rem;
-      color: var(--rule);
-      padding: 16px 10px;
+      color: #bbb; font-size: 12px;
+      text-align: center; white-space: nowrap;
     }
 
     /* Thumbnail */
-    td.col-thumb {
-      padding: 14px 16px !important;
-      text-align: center;
-    }
+    td.col-thumb { padding: 10px 12px; text-align: center; }
     td.col-thumb a {
       display: inline-block;
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--rule);
-      transition: box-shadow .25s, transform .2s;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      transition: box-shadow .2s, transform .2s;
     }
     td.col-thumb a:hover {
-      box-shadow: 0 6px 20px rgba(122,59,30,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
       transform: translateY(-2px);
     }
     td.col-thumb a::after {
       content: '↗';
       position: absolute;
-      top: 8px; right: 8px;
-      background: rgba(26,22,18,0.72);
+      top: 7px; right: 7px;
+      background: rgba(0,0,0,0.55);
       color: #fff;
       font-size: 11px;
-      padding: 2px 7px;
+      padding: 2px 6px;
       opacity: 0;
       transition: opacity .2s;
-      border-radius: 2px;
-      font-family: system-ui, sans-serif;
+      border-radius: 3px;
     }
     td.col-thumb a:hover::after { opacity: 1; }
     td.col-thumb img {
       display: block;
-      width: var(--thumb-w);
-      height: var(--thumb-h);
+      width: 360px; height: 240px;
       object-fit: cover;
-      background: var(--parchment);
+      background: #f0f0ee;
     }
     .thumb-placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: var(--thumb-w);
-      height: var(--thumb-h);
-      background: var(--parchment);
-      border: 1px dashed var(--rule);
-      color: var(--rule);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      font-family: 'IM Fell English', serif;
+      width: 360px; height: 240px;
+      background: #f5f5f3;
+      border: 1px dashed #ccc;
+      border-radius: 4px;
+      color: #bbb;
+      font-size: 12px;
     }
 
     /* Title */
-    td.col-title {
-      font-size: 0.92rem;
-      font-weight: 500;
-    }
-    td.col-title a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    td.col-title { font-weight: 600; }
+    td.col-title a { color: #1a73e8; text-decoration: none; }
     td.col-title a:hover { text-decoration: underline; }
 
-    /* Date */
-    td.col-date {
-      font-size: 0.85rem;
-      color: var(--ink-light);
-      white-space: nowrap;
-    }
+    /* Date / Source */
+    td.col-date   { color: #555; white-space: nowrap; }
+    td.col-source { color: #555; word-break: break-word; }
 
-    /* Source */
-    td.col-source {
-      font-size: 0.85rem;
-      color: var(--ink-light);
-    }
-
-    /* Repository */
-    td.col-repo { font-size: 0.83rem; }
+    /* Repository tag */
+    td.col-repo { }
     .tag-repo {
       display: inline-block;
-      padding: 2px 9px;
-      border: 1px solid var(--rule);
-      font-size: 0.72rem;
-      color: var(--ink-light);
-      letter-spacing: 0.03em;
-      border-radius: 2px;
+      padding: 2px 8px;
+      background: #f0f0ee;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #555;
     }
 
     /* Note */
     .table-note {
-      margin-top: 20px;
-      font-size: 0.75rem;
-      color: var(--ink-light);
-      border-left: 2px solid var(--rule);
-      padding-left: 12px;
-      line-height: 1.9;
-    }
-
-    @media (max-width: 900px) {
-      main { padding: 32px 16px 60px; }
-      .topnav { padding: 0 24px; gap: 24px; }
-      :root { --thumb-w: 220px; --thumb-h: 147px; }
+      margin-top: 16px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.8;
     }
   </style>
 </head>
@@ -260,14 +153,11 @@
   </nav>
 
   <main>
-    <header class="page-header">
-      <h1>Reference <span style="font-style:italic;font-size:1.6rem;color:var(--ink-light);">參考文獻</span></h1>
-      <p class="subtitle">Historical Map Sources &amp; Archival References</p>
-      <span class="count-badge" id="ref-count">— entries</span>
-    </header>
+    <h1>Reference <span style="font-weight:400;color:#888">參考文獻</span></h1>
+    <p class="subtitle">참고한 지도 자료 목록. 썸네일 또는 제목을 클릭하면 원본 자료 페이지로 이동합니다. — <span id="ref-count">…</span></p>
 
-    <div class="ref-table-wrap">
-      <table class="ref-table" id="ref-table">
+    <div class="table-wrap">
+      <table id="ref-table">
         <colgroup>
           <col class="col-no">
           <col class="col-thumb">
@@ -342,10 +232,9 @@
 
         </tbody>
       </table>
-    </div>
+    </div><!-- /.table-wrap -->
 
     <p class="table-note">
-      * 썸네일 및 지도 제목을 클릭하면 해당 원본 자료 페이지로 이동합니다.<br>
       * 온라인 공개 자료가 아닌 경우 링크가 제공되지 않을 수 있습니다.
     </p>
   </main>
@@ -353,7 +242,7 @@
   <script>
     const rows = document.querySelectorAll('#ref-table tbody tr');
     document.getElementById('ref-count').textContent = rows.length + ' entries';
-  </script>
+    </script>
 
 </body>
 </html>

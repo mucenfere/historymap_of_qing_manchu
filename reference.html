@@ -4,9 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Reference(參考文獻)</title>
-  <link rel="stylesheet" href="./css/site.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    .topnav{
+    :root {
+      --ink:        #1a1612;
+      --ink-light:  #4a4440;
+      --rule:       #b8a898;
+      --rule-light: #ddd4c8;
+      --parchment:  #f7f3ed;
+      --cream:      #fdfaf6;
+      --accent:     #7a3b1e;
+      --thumb-w:    360px;
+      --thumb-h:    240px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Serif KR', Georgia, serif;
+      padding-top: 44px;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .topnav {
       position: fixed;
       top: 0; left: 0; right: 0;
       height: 44px;
@@ -14,19 +39,214 @@
       gap: 48px;
       align-items: center;
       padding: 0 80px;
-      background: rgba(255,255,255,0.95);
+      background: rgba(253,250,246,0.97);
       z-index: 1000;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--rule);
+      font-family: 'IM Fell English', serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
     }
-    .topnav a:hover{ text-decoration: underline; }
+    .topnav a { color: var(--ink-light); text-decoration: none; transition: color .2s; }
+    .topnav a:hover { color: var(--accent); text-decoration: underline; }
 
-    body{
-      margin: 0;
-      padding-top: 44px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    /* ── MAIN ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 52px 48px 80px;
     }
 
-    main{ padding: 16px; }
+    /* ── PAGE HEADER ── */
+    .page-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 20px;
+      margin-bottom: 48px;
+    }
+    .page-header h1 {
+      font-family: 'IM Fell English', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .page-header .subtitle {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .count-badge {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 3px 10px;
+      border: 1px solid var(--rule);
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── TABLE ── */
+    .ref-table-wrap {
+      border: 1px solid var(--rule);
+    }
+
+    table.ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.87rem;
+      line-height: 1.65;
+    }
+
+    /* Column headers */
+    table.ref-table thead th {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 11px 18px;
+      font-family: 'IM Fell English', serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-align: left;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      white-space: nowrap;
+    }
+    table.ref-table thead th:last-child { border-right: none; }
+
+    /* Column widths */
+    col.col-no     { width: 52px; }
+    col.col-thumb  { width: calc(var(--thumb-w) + 32px); }
+    col.col-title  { width: 200px; }
+    col.col-date   { width: 120px; }
+    col.col-source { }
+    col.col-repo   { width: 155px; }
+
+    /* Body rows */
+    table.ref-table tbody tr {
+      border-bottom: 1px solid var(--rule);
+      transition: background .15s;
+    }
+    table.ref-table tbody tr:last-child { border-bottom: none; }
+    table.ref-table tbody tr:hover { background: #faf5ef; }
+
+    table.ref-table tbody td {
+      padding: 16px 18px;
+      vertical-align: middle;
+      border-right: 1px solid var(--rule-light);
+      color: var(--ink);
+    }
+    table.ref-table tbody td:last-child { border-right: none; }
+
+    /* No. column */
+    td.col-no {
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-size: 1rem;
+      color: var(--rule);
+      padding: 16px 10px;
+    }
+
+    /* Thumbnail */
+    td.col-thumb {
+      padding: 14px 16px !important;
+      text-align: center;
+    }
+    td.col-thumb a {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      transition: box-shadow .25s, transform .2s;
+    }
+    td.col-thumb a:hover {
+      box-shadow: 0 6px 20px rgba(122,59,30,0.2);
+      transform: translateY(-2px);
+    }
+    td.col-thumb a::after {
+      content: '↗';
+      position: absolute;
+      top: 8px; right: 8px;
+      background: rgba(26,22,18,0.72);
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 7px;
+      opacity: 0;
+      transition: opacity .2s;
+      border-radius: 2px;
+      font-family: system-ui, sans-serif;
+    }
+    td.col-thumb a:hover::after { opacity: 1; }
+    td.col-thumb img {
+      display: block;
+      width: var(--thumb-w);
+      height: var(--thumb-h);
+      object-fit: cover;
+      background: var(--parchment);
+    }
+    .thumb-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--thumb-w);
+      height: var(--thumb-h);
+      background: var(--parchment);
+      border: 1px dashed var(--rule);
+      color: var(--rule);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      font-family: 'IM Fell English', serif;
+    }
+
+    /* Title */
+    td.col-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+    td.col-title a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    td.col-title a:hover { text-decoration: underline; }
+
+    /* Date */
+    td.col-date {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+
+    /* Source */
+    td.col-source {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+    }
+
+    /* Repository */
+    td.col-repo { font-size: 0.83rem; }
+    .tag-repo {
+      display: inline-block;
+      padding: 2px 9px;
+      border: 1px solid var(--rule);
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      letter-spacing: 0.03em;
+      border-radius: 2px;
+    }
+
+    /* Note */
+    .table-note {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      border-left: 2px solid var(--rule);
+      padding-left: 12px;
+      line-height: 1.9;
+    }
+
+    @media (max-width: 900px) {
+      main { padding: 32px 16px 60px; }
+      .topnav { padding: 0 24px; gap: 24px; }
+      :root { --thumb-w: 220px; --thumb-h: 147px; }
+    }
   </style>
 </head>
 <body>
@@ -40,12 +260,100 @@
   </nav>
 
   <main>
-    <h1>Reference(參考文獻)</h1>
-    <p>내용을 입력하세요.</p>
-   <p>내용을 입력하세요.</p>
-   <p>내용을 입력하세요.</p> 
-    <p>내용을 입력하세요.</p>
+    <header class="page-header">
+      <h1>Reference <span style="font-style:italic;font-size:1.6rem;color:var(--ink-light);">參考文獻</span></h1>
+      <p class="subtitle">Historical Map Sources &amp; Archival References</p>
+      <span class="count-badge" id="ref-count">— entries</span>
+    </header>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table" id="ref-table">
+        <colgroup>
+          <col class="col-no">
+          <col class="col-thumb">
+          <col class="col-title">
+          <col class="col-date">
+          <col class="col-source">
+          <col class="col-repo">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>지도 썸네일</th>
+            <th>지도 제목</th>
+            <th>제작시기</th>
+            <th>수록자료</th>
+            <th>소장처</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- ════ 항목 1 ════ -->
+          <tr>
+            <td class="col-no">1</td>
+            <td class="col-thumb">
+              <a href="https://example.com/map1" target="_blank" rel="noopener">
+                <img src="./images/thumb_map1.png" alt="지도 1 썸네일"
+                     onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
+              </a>
+            </td>
+            <td class="col-title">
+              <a href="https://example.com/map1" target="_blank" rel="noopener">
+                지도 제목을 입력하세요
+              </a>
+            </td>
+            <td class="col-date">1700년대 초</td>
+            <td class="col-source">수록자료명 / 권호를 입력하세요</td>
+            <td class="col-repo"><span class="tag-repo">규장각</span></td>
+          </tr>
+
+          <!-- ════ 항목 2 ════ -->
+          <tr>
+            <td class="col-no">2</td>
+            <td class="col-thumb">
+              <a href="https://example.com/map2" target="_blank" rel="noopener">
+                <img src="./images/thumb_map2.png" alt="지도 2 썸네일"
+                     onerror="this.outerHTML='<span class=&quot;thumb-placeholder&quot;>No Image</span>'">
+              </a>
+            </td>
+            <td class="col-title">
+              <a href="https://example.com/map2" target="_blank" rel="noopener">
+                지도 제목을 입력하세요
+              </a>
+            </td>
+            <td class="col-date">1800년대 중반</td>
+            <td class="col-source">수록자료명 / 권호를 입력하세요</td>
+            <td class="col-repo"><span class="tag-repo">국립중앙도서관</span></td>
+          </tr>
+
+          <!-- ════ 항목 3 (링크 없는 경우) ════ -->
+          <tr>
+            <td class="col-no">3</td>
+            <td class="col-thumb">
+              <span class="thumb-placeholder">No Image</span>
+            </td>
+            <td class="col-title">
+              지도 제목을 입력하세요
+            </td>
+            <td class="col-date">연대 미상</td>
+            <td class="col-source">수록자료명 / 권호를 입력하세요</td>
+            <td class="col-repo"><span class="tag-repo">소장처 입력</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <p class="table-note">
+      * 썸네일 및 지도 제목을 클릭하면 해당 원본 자료 페이지로 이동합니다.<br>
+      * 온라인 공개 자료가 아닌 경우 링크가 제공되지 않을 수 있습니다.
+    </p>
   </main>
+
+  <script>
+    const rows = document.querySelectorAll('#ref-table tbody tr');
+    document.getElementById('ref-count').textContent = rows.length + ' entries';
+  </script>
 
 </body>
 </html>

@@ -23,7 +23,7 @@
     .topnav a:hover { text-decoration: underline; }
 
     body { padding-top: 44px; }
-    main { max-width: 1200px; margin: 0 auto; padding: 28px 32px 60px; }
+    main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 60px; }
     h1 { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
     .subtitle { color: #666; font-size: 13px; margin-bottom: 24px; }
 
@@ -81,7 +81,7 @@
 
     /* 컬럼 너비 */
     col.col-id       { width: 48px;  }
-    col.col-hanja    { width: 140px; }
+    col.col-hanja    { width: 160px; }
     col.col-manchu   { width: 160px; }
     col.col-time     { width: 110px; }
     col.col-type     { width: 80px;  }
@@ -91,7 +91,9 @@
 
     tbody tr { border-bottom: 1px solid #f0f0ee; }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #fafaf8; }
+    tbody tr:nth-child(even) { background: #f5f5f3; }
+    tbody tr:nth-child(odd)  { background: #ffffff; }
+    tbody tr:hover { background: #e8f0fe; }
     td { padding: 9px 12px; vertical-align: top; }
     td.seq    { color: #bbb; font-size: 12px; text-align: center; white-space: nowrap; }
     td.hanja  { font-size: 14px; font-weight: 600; word-break: break-word; overflow-wrap: break-word; }
@@ -215,8 +217,8 @@
             <th class="sortable" data-col="manchu">지명_만주어<span class="sort-arrow"> ⇅</span></th>
             <th class="sortable" data-col="time">시간 레이어<span class="sort-arrow"> ⇅</span></th>
             <th class="sortable" data-col="type">유형<span class="sort-arrow"> ⇅</span></th>
-            <th>위치 비정 근거</th>
-            <th>신뢰도</th>
+            <th>위치 고증 관련 자료</th>
+            <th class="sortable" data-col="trust" style="text-align:center">신뢰도<span class="sort-arrow"> ⇅</span></th>
             <th id="actionsHeader" style="display:none">작업</th>
           </tr>
         </thead>
@@ -239,10 +241,10 @@
       <input type="text" id="fTime" placeholder="예: 강희말기, 건륭중기 등" />
       <label>유형</label>
       <input type="text" id="fType" placeholder="예: 변내카룬, 변외카룬, 邊臺 등" />
-      <label>위치 비정 근거</label>
+      <label>위치 고증 관련 자료</label>
       <textarea id="fDesc" placeholder="위치 비정 근거, 사료 출처, 관련 카룬 등"></textarea>
       <label>신뢰도</label>
-      <input type="text" id="fTrust" placeholder="예: A, B, C" />
+      <input type="text" id="fTrust" placeholder="예: 高, 中, 低" />
       <div class="modal-actions">
         <button class="btn-cancel" id="modalCancel">취소</button>
         <button class="btn-save"   id="modalSave">저장</button>
